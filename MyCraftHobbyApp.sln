@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{01
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.Services.Core", "MyCraftHobbyApp.Services.Core\MyCraftHobbyApp.Services.Core.csproj", "{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.GCommon", "MyCraftHobbyApp.GCommon\MyCraftHobbyApp.GCommon.csproj", "{A58C58C6-7537-429F-B3F7-66211A320F07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A58C58C6-7537-429F-B3F7-66211A320F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A58C58C6-7537-429F-B3F7-66211A320F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A58C58C6-7537-429F-B3F7-66211A320F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A58C58C6-7537-429F-B3F7-66211A320F07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
