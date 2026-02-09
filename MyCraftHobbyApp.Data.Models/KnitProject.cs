@@ -17,9 +17,10 @@ namespace MyCraftHobbyApp.Data.Models
         [MaxLength(ProjectImgUrlMaxValue)]
         public string? ImgUrl { get; set; }
 
-        [ForeignKey(nameof(ProjectTypes))]
+        [ForeignKey(nameof(ProjectType))]
         public int ProjectTypeId { get; set; }
-        public virtual ICollection<ProjectType> ProjectTypes { get; set; } 
-            = new List<ProjectType>();
+
+        [Required]
+        public ProjectType ProjectType { get; set; } = null!;
     }
 }

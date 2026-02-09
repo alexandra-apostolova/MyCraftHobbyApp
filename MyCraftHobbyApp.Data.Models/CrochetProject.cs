@@ -17,14 +17,16 @@ namespace MyCraftHobbyApp.Data.Models
         [MaxLength(ProjectImgUrlMaxValue)]
         public string? ImgUrl { get; set; }
 
-        [ForeignKey(nameof(StitchPatterns))]
+        [ForeignKey(nameof(StitchPattern))]
         public int StitchPatternId { get; set; }
-        public virtual ICollection<StitchPattern> StitchPatterns { get; set; } 
-            = new List<StitchPattern>();
 
-        [ForeignKey(nameof(ProjectTypes))]
+        [Required]
+        public StitchPattern StitchPattern { get; set; } = null!;
+
+        [ForeignKey(nameof(ProjectType))]
         public int ProjectTypeId { get; set; }
-        public virtual ICollection<ProjectType> ProjectTypes { get; set; }
-            = new List<ProjectType>();
+
+        [Required]
+        public ProjectType ProjectType { get; set; } = null!;
     }
 }

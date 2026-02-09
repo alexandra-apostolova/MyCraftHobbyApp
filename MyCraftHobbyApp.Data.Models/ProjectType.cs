@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MyCraftHobbyApp.Data.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 using static MyCraftHobbyApp.GCommon.EntityValidation;
 
 namespace MyCraftHobbyApp.Data.Models
@@ -11,5 +12,8 @@ namespace MyCraftHobbyApp.Data.Models
         [Required]
         [MaxLength(ProjectTypeNameMaxValue)]
         public string Name { get; set; } = null!;
+
+        [Required]
+        public DifficultyEnum Difficulty { get; set; }
     }
 }

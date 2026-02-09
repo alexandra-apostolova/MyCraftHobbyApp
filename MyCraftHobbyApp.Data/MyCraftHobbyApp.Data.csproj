@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityConfiguration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyCraftHobbyApp.Data.Models\MyCraftHobbyApp.Data.Models.csproj" />
   </ItemGroup>
 

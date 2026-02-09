@@ -11,6 +11,6 @@ namespace MyCraftHobbyApp.Data.Models.Interfaces
         int Id { get; }
         string Name { get; }
         string? ImgUrl { get; }
-        ICollection<ProjectType> ProjectTypes { get; }
+        ProjectType ProjectType { get; }
     }
 }
