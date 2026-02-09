@@ -14,6 +14,6 @@ namespace MyCraftHobbyApp.Data.Models
         public string Name { get; set; } = null!;
 
         [Required]
-        public DifficultyEnum Difficulty { get; set; }
+        public Difficulty Difficulty { get; set; }
     }
 }
