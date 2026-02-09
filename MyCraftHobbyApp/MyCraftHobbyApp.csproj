@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.23" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyCraftHobbyApp.Data\MyCraftHobbyApp.Data.csproj" />
+    <ProjectReference Include="..\MyCraftHobbyApp.ViewModels\MyCraftHobbyApp.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

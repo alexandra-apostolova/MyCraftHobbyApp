@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MyCraftHobbyApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class CraftHobbyAppDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public CraftHobbyAppDbContext(DbContextOptions<CraftHobbyAppDbContext> options)
             : base(options)
         {
         }

@@ -1,9 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36908.2 d17.14
+VisualStudioVersion = 17.14.36908.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp", "MyCraftHobbyApp\MyCraftHobbyApp.csproj", "{B2230BA7-6283-4ACF-AACD-EA50ABB4ED38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.ViewModels", "MyCraftHobbyApp.ViewModels\MyCraftHobbyApp.ViewModels.csproj", "{794465F6-1E95-445C-BCFE-8BAA8EFD72B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{A578986A-82BB-4454-8698-1E0557D62F45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.Data", "MyCraftHobbyApp.Data\MyCraftHobbyApp.Data.csproj", "{620F228F-CB34-43DC-8C73-E71D68B26C14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.Data.Models", "MyCraftHobbyApp.Data.Models\MyCraftHobbyApp.Data.Models.csproj", "{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{01ED5F42-E1F8-4CDB-B4B7-FA3E86698830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCraftHobbyApp.Services.Core", "MyCraftHobbyApp.Services.Core\MyCraftHobbyApp.Services.Core.csproj", "{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +29,32 @@ Global
 		{B2230BA7-6283-4ACF-AACD-EA50ABB4ED38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2230BA7-6283-4ACF-AACD-EA50ABB4ED38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2230BA7-6283-4ACF-AACD-EA50ABB4ED38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{794465F6-1E95-445C-BCFE-8BAA8EFD72B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{794465F6-1E95-445C-BCFE-8BAA8EFD72B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{794465F6-1E95-445C-BCFE-8BAA8EFD72B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{794465F6-1E95-445C-BCFE-8BAA8EFD72B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620F228F-CB34-43DC-8C73-E71D68B26C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620F228F-CB34-43DC-8C73-E71D68B26C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620F228F-CB34-43DC-8C73-E71D68B26C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620F228F-CB34-43DC-8C73-E71D68B26C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2230BA7-6283-4ACF-AACD-EA50ABB4ED38} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{794465F6-1E95-445C-BCFE-8BAA8EFD72B5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{620F228F-CB34-43DC-8C73-E71D68B26C14} = {A578986A-82BB-4454-8698-1E0557D62F45}
+		{0A8CFAA4-E21C-4DC2-87EB-D5D32C545285} = {A578986A-82BB-4454-8698-1E0557D62F45}
+		{E070A5C2-CDCE-4B9A-A47D-1D02A0C49F81} = {01ED5F42-E1F8-4CDB-B4B7-FA3E86698830}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76D5940E-F705-468A-BE49-8A347C24E9E1}
