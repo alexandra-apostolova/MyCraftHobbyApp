@@ -3,7 +3,7 @@ using MyCraftHobbyApp.Data.Models.Enums;
 
 namespace MyCraftHobbyApp.ViewModels
 {
-    public class AllVIewModel
+    public class AllViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

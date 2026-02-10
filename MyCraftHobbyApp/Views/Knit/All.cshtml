@@ -1,1 +1,39 @@
-﻿
+﻿@model ICollection<AllViewModel>
+
+@{
+    ViewData["Title"] = "All Knit Projects";
+}
+
+<section class="projects-page">
+    <div class="container">
+        <h1 class="projects-title">All Knit Projects</h1>
+
+        <div class="projects-row">
+            @foreach (var project in Model)
+            {
+                <div class="craft-card">
+                    <div class="craft-image-wrapper">
+                        <img src="@Url.Content(project.ImgUrl)" 
+                             alt="@project.Name" 
+                             class="craft-image" />
+                    </div>
+
+                    <h3 class="project-title">@project.Name</h3>
+                    <p class="project-difficulty">@project.Difficulty</p>
+
+                    <div class="project-buttons">
+                        <form asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-welcome">
+                            Edit
+                        </form>
+                        <form asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-welcome btn-danger">Delete</button>
+                        </form>
+                        <a asp-controller="Knit" asp-action="Details" asp-route-id="@project.Id" class="btn btn-welcome">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

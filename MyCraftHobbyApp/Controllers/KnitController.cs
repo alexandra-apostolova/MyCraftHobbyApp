@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyCraftHobbyApp.Services.Core.Interfaces;
+using MyCraftHobbyApp.ViewModels;
 
 namespace MyCraftHobbyApp.Controllers
 {
     public class KnitController : Controller
     {
-        public IActionResult Index()
+        private readonly IKnitService knitService;
+        public KnitController(IKnitService knitService)
         {
-            return View();
+            this.knitService = knitService;
+        }
+        public async Task<IActionResult> All()
+        {
+            ICollection<AllViewModel> viewModel = await knitService.GetAllKnitProjectsAsync();
+
+            return View(viewModel);
         }
     }
 }
