@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <ProjectReference Include="..\MyCraftHobbyApp.Data\MyCraftHobbyApp.Data.csproj" />
+    <ProjectReference Include="..\MyCraftHobbyApp.ViewModels\MyCraftHobbyApp.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

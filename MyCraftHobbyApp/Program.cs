@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyCraftHobbyApp.Data;
+using MyCraftHobbyApp.Services.Core;
+using MyCraftHobbyApp.Services.Core.Interfaces;
 
 namespace MyCraftHobbyApp
 {
@@ -20,6 +22,8 @@ namespace MyCraftHobbyApp
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<CraftHobbyAppDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IKnitService, KnitService>();
 
             var app = builder.Build();
 
