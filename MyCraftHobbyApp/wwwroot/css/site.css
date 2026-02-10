@@ -48,7 +48,7 @@ html {
 .navbar-nav .nav-link {
 
     color: var(--text-soft) !important;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 500;
     border-radius: 14px;
     transition: color 0.2s ease, background-color 0.2s ease;
@@ -137,7 +137,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    margin-bottom: 5rem;
+    margin-bottom: 1rem;
 }
 
 .welcome-title {
@@ -173,7 +173,9 @@ body {
     height: 160px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 1.5rem;
+    object-position: center;
+    display: block;
+    margin: 0 auto 1rem;
     border: 6px solid #f1e6dc;
 }
 
@@ -201,13 +203,54 @@ body {
         transform: scale(1.03);
     }
 
+/* ===== INFO SECTION SIMPLE ===== */
+.info-section {
+    padding: 4rem 2rem;
+/*    margin-top: 2rem;*/
+    margin-bottom: 6rem;
+    color: var(--text-main);
+}
+
+.info-section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+}
+
+.info-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.info-point {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 300px;
+}
+
+.info-icon svg {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+}
+
+.info-text {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
 .footer {
-    background-color: rgba(220, 200, 180, 0.9); /* match navbar */
-    backdrop-filter: blur(6px); /* soft blur */
+    background-color: rgba(220, 200, 180, 0.9);
+    backdrop-filter: blur(6px);
     border-top: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06); /* top shadow */
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06);
     padding: 0.5rem 0.5rem;
-    margin-top: 1em;
+    margin-top: 2rem;
 }
 
     .footer .container {
