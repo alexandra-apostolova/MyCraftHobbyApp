@@ -13,7 +13,24 @@ namespace MyCraftHobbyApp.Controllers
         }
         public async Task<IActionResult> All()
         {
-            ICollection<AllViewModel> viewModel = await knitService.GetAllKnitProjectsAsync();
+            ICollection<AllViewModel> viewModel 
+                = await knitService.GetAllKnitProjectsAsync();
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            DetailsKnitViewModel viewModel = await knitService.GetDetailsForModelAsync(id);
+            if (viewModel == null)
+            {
+                return NotFound();
+            }
 
             return View(viewModel);
         }

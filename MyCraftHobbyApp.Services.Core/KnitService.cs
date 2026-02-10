@@ -32,9 +32,30 @@ namespace MyCraftHobbyApp.Services.Core
                     Difficulty = k.ProjectType.Difficulty
                 })
                 .OrderBy(k => k.Name)
+                .ThenBy(k => k.Difficulty)
                 .ToListAsync();
 
             return knitProjects;
+        }
+
+        public async Task<DetailsKnitViewModel> GetDetailsForModelAsync(int id)
+        {
+            KnitProject? knitProject = await dbContext.KnitProjects
+                .Include(k => k.ProjectType)
+                .SingleOrDefaultAsync(k => k.Id == id);
+            if (knitProject == null)
+            {
+                return null;
+            }
+
+            DetailsKnitViewModel viewModel = new DetailsKnitViewModel();
+            viewModel.Id = id;
+            viewModel.Name = knitProject.Name;
+            viewModel.ImgUrl = knitProject.ImgUrl;
+            viewModel.Difficulty = knitProject.ProjectType.Difficulty;
+            viewModel.ProjectTypeName = knitProject.ProjectType.Name;
+
+            return viewModel;
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿@model DetailsKnitViewModel
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<section class="project-details-page">
+    <div class="container">
+
+        <!-- Title + Back button -->
+        <div class="details-header">
+            <h1 class="project-details-title">@Model.Name</h1>
+            <a asp-controller="Knit" asp-action="All" class="craft-button">
+                Back to Projects
+            </a>
+        </div>
+
+        <!-- Details + Image -->
+        <div class="details-content">
+            <div class="details-text">
+                <p><strong>Difficulty:</strong> @Model.Difficulty</p>
+                <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
+
+                <div class="details-buttons">
+                    <a asp-controller="Knit" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-welcome">Edit</a>
+
+                    <form asp-controller="Knit" asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-welcome btn-danger">Delete</button>
+                    </form>
+
+                    <a asp-controller="Knit" asp-action="Start" asp-route-id="@Model.Id" class="btn btn-welcome btn-start">Start Project</a>
+                </div>
+            </div>
+
+            <div class="details-image-wrapper">
+                <img src="@Url.Content(Model.ImgUrl)" alt="@Model.Name" class="details-image" />
+            </div>
+        </div>
+    </div>
+</section>
