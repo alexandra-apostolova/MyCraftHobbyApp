@@ -1,8 +1,39 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Pick Your Craft";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="welcome-container">
+    <h1 class="welcome-title">Pick your craft!</h1>
+
+    <div class="craft-options">
+        <!-- Knitting -->
+        <div class="craft-card">
+            <img src=@Url.Content("~/images/istockphoto-1499593982-612x612.jpg")
+                 alt="Knitting project"
+                 class="craft-image" />
+
+            <h2>Knitting</h2>
+
+            <a asp-controller="Knit"
+               asp-action="Index"
+               class="craft-button">
+                Explore Knits
+            </a>
+        </div>
+
+        <!-- Crochet -->
+        <div class="craft-card">
+            <img src=@Url.Content("~/images/istockphoto-1311419248-612x612.jpg")
+                 alt="Crochet project"
+                 class="craft-image" />
+
+            <h2>Crochet</h2>
+
+            <a asp-controller="Crochet"
+               asp-action="Index"
+               class="craft-button">
+                Explore Crochet
+            </a>
+        </div>
+    </div>
 </div>
