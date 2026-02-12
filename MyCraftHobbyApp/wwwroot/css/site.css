@@ -320,6 +320,7 @@ body {
 
     .btn-delete:hover {
         background-color: #8c3838;
+        color: white;
     }
 
 /* ===== DETAILS PAGE ===== */
@@ -531,6 +532,30 @@ body {
     font-size: 13px;
     margin-top: 4px;
 }
+
+.delete-card {
+    margin: 0 auto;
+    margin-top: 4rem;
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    width: 400px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.delete-title {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0 15px;
+}
+    .delete-card h2 {
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
 
 .footer {
     background-color: rgba(220, 200, 180, 0.9);

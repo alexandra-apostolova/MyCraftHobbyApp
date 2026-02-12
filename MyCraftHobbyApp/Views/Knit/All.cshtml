@@ -36,9 +36,9 @@
                             <a asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
                                 Edit
                             </a>
-                            <form asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-delete btn-danger">Delete</button>
-                            </form>
+                            <a asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger">
+                                 Delete
+                            </a>
                         </div>
                     </div>
                 </div>

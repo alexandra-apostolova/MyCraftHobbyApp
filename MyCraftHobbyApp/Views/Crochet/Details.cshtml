@@ -26,9 +26,9 @@
                 <div class="details-buttons">
                     <a asp-controller="Crochet" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-welcome">Edit</a>
 
-                    <form asp-controller="Crochet" asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-welcome btn-danger">Delete</button>
-                    </form>
+                    <a asp-controller="Crochet" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-delete btn-danger">
+                        Delete
+                    </a>
 
                     <a asp-controller="Crochet" asp-action="Start" asp-route-id="@Model.Id" class="btn btn-welcome btn-start">Start Project</a>
                 </div>

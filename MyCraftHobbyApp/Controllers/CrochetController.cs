@@ -60,6 +60,14 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
+            bool isValidProjectType = await crochetService.CheckIsValidProjectIdAsync(inputModel);
+            bool isValidStitchPattern = await crochetService.CheckIsValidStitchIdAsync(inputModel);
+
+            if (!isValidProjectType || !isValidStitchPattern)
+            {
+                return BadRequest();
+            }
+
             await crochetService.AddNewCrochetProjectAsync(inputModel);
 
             return RedirectToAction(nameof(All));
@@ -122,6 +130,48 @@ namespace MyCraftHobbyApp.Controllers
             await crochetService.EditExistingCrochetProjectAsync(knitProject, inputModel);
 
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            CrochetProject projectToDelete = await crochetService.GetCrochetProjectAsync(id);
+            if (projectToDelete == null)
+            {
+                return NotFound();
+            }
+
+            DeleteViewModel model = new DeleteViewModel
+            {
+                Id = projectToDelete.Id,
+                Name = projectToDelete.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, CrochetInputModel model)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            CrochetProject? projectToDelete = await crochetService.GetCrochetProjectAsync(id);
+            if (projectToDelete == null)
+            {
+                return NotFound();
+            }
+
+            await crochetService.DeleteCrochetProjectAsync(projectToDelete);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

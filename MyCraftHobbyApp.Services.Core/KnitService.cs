@@ -93,7 +93,13 @@ namespace MyCraftHobbyApp.Services.Core
                 throw new InvalidOperationException("Id can't be zero or negative!");
             }
 
-            return await dbContext.KnitProjects.SingleOrDefaultAsync(k => k.Id == id);
+            KnitProject? knitProject = await dbContext.KnitProjects.SingleOrDefaultAsync(k => k.Id == id);
+            if (knitProject == null)
+            {
+                return null;
+            }
+
+            return knitProject;
         }
 
         public async Task<bool> CheckIsValidProjectIdAsync(KnitInputModel model)
@@ -111,6 +117,22 @@ namespace MyCraftHobbyApp.Services.Core
                 knitProject.ProjectTypeId = inputModel.ProjectTypeId;
 
                 await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task DeleteKnitProjectAsync(KnitProject knitProject)
+        {
+            
+            try
+            {
+                dbContext.KnitProjects.Remove(knitProject);
+                await dbContext.SaveChangesAsync();
+
             }
             catch (Exception)
             {

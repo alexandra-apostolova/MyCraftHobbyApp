@@ -56,6 +56,12 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
+            bool isValidProjectType = await knitService.CheckIsValidProjectIdAsync(inputModel);
+            if (!isValidProjectType)
+            {
+                return BadRequest();
+            }
+
             await knitService.AddNewKnitProjectAsync(inputModel);
 
             return RedirectToAction(nameof(All));
@@ -112,6 +118,48 @@ namespace MyCraftHobbyApp.Controllers
             await knitService.EditExistingKnitProjectAsync(knitProject, inputModel);
 
             return RedirectToAction(nameof(Details), new {id});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            KnitProject projectToDelete = await knitService.GetKnitProjectAsync(id);
+            if (projectToDelete == null)
+            {
+                return NotFound();
+            }
+
+            DeleteViewModel model = new DeleteViewModel
+            {
+                Id = projectToDelete.Id,
+                Name = projectToDelete.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, KnitInputModel model)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            KnitProject? projectToDelete = await knitService.GetKnitProjectAsync(id);
+            if (projectToDelete == null)
+            {
+                return NotFound();
+            }
+
+            await knitService.DeleteKnitProjectAsync(projectToDelete);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

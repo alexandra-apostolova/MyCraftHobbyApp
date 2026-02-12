@@ -106,7 +106,13 @@ namespace MyCraftHobbyApp.Services.Core
                 throw new InvalidOperationException("Id can't be zero or negative!");
             }
 
-            return await dbContext.CrochetProjects.SingleOrDefaultAsync(k => k.Id == id);
+            CrochetProject? crochetProject = await dbContext.CrochetProjects.SingleOrDefaultAsync(k => k.Id == id);
+            if (crochetProject == null)
+            {
+                return null;
+            }
+
+            return crochetProject;
         }
 
         public async Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model)
@@ -130,6 +136,22 @@ namespace MyCraftHobbyApp.Services.Core
                 crochetProject.ProjectTypeId = inputModel.ProjectTypeId;
 
                 await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task DeleteCrochetProjectAsync(CrochetProject crochetProject)
+        {
+
+            try
+            {
+                dbContext.CrochetProjects.Remove(crochetProject);
+                await dbContext.SaveChangesAsync();
+
             }
             catch (Exception)
             {
