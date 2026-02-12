@@ -20,6 +20,7 @@
             <div class="details-text">
                 <p><strong>Difficulty:</strong> @Model.Difficulty</p>
                 <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
+                <p>@Model.Description</p>
 
                 <div class="details-buttons">
                     <a asp-controller="Knit" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-welcome">Edit</a>

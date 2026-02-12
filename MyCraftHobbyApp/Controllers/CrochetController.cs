@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
@@ -34,6 +35,34 @@ namespace MyCraftHobbyApp.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            IEnumerable<ProjectType> projectTypes = await crochetService.GetAllProjectTypesAsync();
+            IEnumerable<StitchPattern> stitchPatterns = await crochetService.GetAllStitchPatternAsync();
+
+            CrochetInputModel inputModel = new CrochetInputModel
+            {
+                StitchPatterns = stitchPatterns,
+                ProjectTypes = projectTypes
+            };
+
+            return View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CrochetInputModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            await crochetService.AddNewCrochetProject(inputModel);
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

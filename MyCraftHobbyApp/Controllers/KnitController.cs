@@ -47,5 +47,18 @@ namespace MyCraftHobbyApp.Controllers
 
             return View(inputModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(KnitInputModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            await knitService.AddNewKnitProject(inputModel);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

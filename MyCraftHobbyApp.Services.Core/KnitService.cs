@@ -63,5 +63,27 @@ namespace MyCraftHobbyApp.Services.Core
 
             return allProjectTypes;
         }
+
+        public async Task AddNewKnitProject(KnitInputModel inputModel)
+        {
+            try
+            {
+                KnitProject projectToAdd = new KnitProject
+                {
+                    Name = inputModel.Name,
+                    Description = inputModel.Description,
+                    ImgUrl = inputModel.ImgUrl,
+                    ProjectTypeId = inputModel.ProjectTypeId
+                };
+
+                await dbContext.KnitProjects.AddAsync(projectToAdd);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

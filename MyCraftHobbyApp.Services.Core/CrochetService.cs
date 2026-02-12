@@ -3,6 +3,7 @@ using MyCraftHobbyApp.Data;
 using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
+using System.Web.Mvc;
 
 namespace MyCraftHobbyApp.Services.Core
 {
@@ -53,6 +54,49 @@ namespace MyCraftHobbyApp.Services.Core
             viewModel.ProjectTypeName = crochetProject.ProjectType.Name;
 
             return viewModel;
+        }
+
+        public async Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync()
+        {
+            IEnumerable<ProjectType> allProjectTypes = await dbContext
+                .Types
+                .AsNoTracking()
+                .ToListAsync();
+
+            return allProjectTypes;
+        }
+
+        public async Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync()
+        {
+            IEnumerable<StitchPattern> allStitchPatterns = await dbContext
+                .Patterns
+                .AsNoTracking()
+                .ToListAsync();
+
+            return allStitchPatterns;
+        }
+
+        public async Task AddNewCrochetProject(CrochetInputModel inputModel)
+        {
+            try
+            {
+                CrochetProject projectToAdd = new CrochetProject
+                {
+                    Name = inputModel.Name,
+                    Description = inputModel.Description,
+                    ImgUrl = inputModel.ImgUrl,
+                    StitchPatternId = inputModel.StitchPatternId,
+                    ProjectTypeId = inputModel.ProjectTypeId
+                };
+
+                await dbContext.CrochetProjects.AddAsync(projectToAdd);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

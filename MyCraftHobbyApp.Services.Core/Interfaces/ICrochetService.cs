@@ -1,4 +1,5 @@
-﻿using MyCraftHobbyApp.ViewModels;
+﻿using MyCraftHobbyApp.Data.Models;
+using MyCraftHobbyApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync();
 
         Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id);
+        Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
+        Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync();
+        Task AddNewCrochetProject(CrochetInputModel inputModel);
     }
 }
