@@ -26,7 +26,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            DetailsKnitViewModel viewModel = await knitService.GetDetailsForModelAsync(id);
+            DetailsKnitViewModel viewModel = await knitService.GetDetailsForKnitModelAsync(id);
             if (viewModel == null)
             {
                 return NotFound();

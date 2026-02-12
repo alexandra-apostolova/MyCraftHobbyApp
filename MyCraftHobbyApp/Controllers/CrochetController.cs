@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyCraftHobbyApp.Services.Core;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -15,6 +16,22 @@ namespace MyCraftHobbyApp.Controllers
         {
             ICollection<AllViewModel> viewModel 
                 = await crochetService.GetAllCrochetProjectsAsync();
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            DetailsCrochetViewModel viewModel = await crochetService.GetDetailsForCrochetModelAsync(id);
+            if (viewModel == null)
+            {
+                return NotFound();
+            }
 
             return View(viewModel);
         }

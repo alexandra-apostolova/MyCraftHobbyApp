@@ -6,6 +6,6 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
     public interface IKnitService
     {
         Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync();
-        Task<DetailsKnitViewModel> GetDetailsForModelAsync(int id);
+        Task<DetailsKnitViewModel> GetDetailsForKnitModelAsync(int id);
     }
 }

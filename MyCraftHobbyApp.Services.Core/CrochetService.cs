@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCraftHobbyApp.Data;
+using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -29,6 +30,28 @@ namespace MyCraftHobbyApp.Services.Core
                 .ToListAsync();
 
             return allCrochetProjects;
+        }
+
+        public async Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id)
+        {
+            CrochetProject? crochetProject = await dbContext.CrochetProjects
+                .Include(c => c.ProjectType)
+                .Include(c => c.StitchPattern)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            if (crochetProject == null)
+            {
+                return null;
+            }
+
+            DetailsCrochetViewModel viewModel = new DetailsCrochetViewModel();
+            viewModel.Id = id;
+            viewModel.Name = crochetProject.Name;
+            viewModel.ImgUrl = crochetProject.ImgUrl;
+            viewModel.Difficulty = crochetProject.ProjectType.Difficulty;
+            viewModel.StitchPattern = crochetProject.StitchPattern.Name;
+            viewModel.ProjectTypeName = crochetProject.ProjectType.Name;
+
+            return viewModel;
         }
     }
 }

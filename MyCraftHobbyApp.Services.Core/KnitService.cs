@@ -38,7 +38,7 @@ namespace MyCraftHobbyApp.Services.Core
             return knitProjects;
         }
 
-        public async Task<DetailsKnitViewModel> GetDetailsForModelAsync(int id)
+        public async Task<DetailsKnitViewModel> GetDetailsForKnitModelAsync(int id)
         {
             KnitProject? knitProject = await dbContext.KnitProjects
                 .Include(k => k.ProjectType)

@@ -10,5 +10,7 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
     public interface ICrochetService
     {
         Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync();
+
+        Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id);
     }
 }
