@@ -46,6 +46,7 @@ namespace MyCraftHobbyApp.Services.Core
             DetailsCrochetViewModel viewModel = new DetailsCrochetViewModel();
             viewModel.Id = id;
             viewModel.Name = crochetProject.Name;
+            viewModel.Description = crochetProject.Description;
             viewModel.ImgUrl = crochetProject.ImgUrl;
             viewModel.Difficulty = crochetProject.ProjectType.Difficulty;
             viewModel.StitchPattern = crochetProject.StitchPattern.Name;

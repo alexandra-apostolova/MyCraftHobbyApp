@@ -27,15 +27,17 @@
                     <p class="project-difficulty">@project.Difficulty</p>
 
                     <div class="project-buttons">
-                        <form asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-welcome">
-                            Edit
-                        </form>
-                        <form asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-welcome btn-danger">Delete</button>
-                        </form>
-                        <a asp-controller="Knit" asp-action="Details" asp-route-id="@project.Id" class="btn btn-welcome">
+                        <a asp-controller="Knit" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
                             View Details
                         </a>
+                        <div class="button-row">
+                            <form asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
+                                Edit
+                            </form>
+                            <form asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-delete btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             }

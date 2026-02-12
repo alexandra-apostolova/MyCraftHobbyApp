@@ -10,6 +10,7 @@ namespace MyCraftHobbyApp.GCommon
     {
         public const int ProjectNameMinValue = 2;
         public const int ProjectNameMaxValue = 50;
+        public const int ProjectDescriptionMaxValue = 1000;
         public const int ProjectImgUrlMinValue = 9;
         public const int ProjectImgUrlMaxValue = 200;
 

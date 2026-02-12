@@ -21,6 +21,7 @@
                 <p><strong>Difficulty:</strong> @Model.Difficulty</p>
                 <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
                 <p><strong>Stitch Pattern:</strong> @Model.StitchPattern</p>
+                <p>@Model.Description</p>
 
                 <div class="details-buttons">
                     <a asp-controller="Crochet" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-welcome">Edit</a>

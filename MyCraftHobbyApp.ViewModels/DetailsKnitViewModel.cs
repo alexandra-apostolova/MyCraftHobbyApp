@@ -2,6 +2,7 @@
 using MyCraftHobbyApp.Data.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCraftHobbyApp.ViewModels
 {
@@ -9,6 +10,7 @@ namespace MyCraftHobbyApp.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
+        public string? Description { get; set; }
         public string? ImgUrl { get; set; }
         public Difficulty Difficulty { get; set; }
         public string ProjectTypeName { get; set; } = null!;

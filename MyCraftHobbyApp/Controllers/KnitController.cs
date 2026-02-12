@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -33,6 +34,18 @@ namespace MyCraftHobbyApp.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            IEnumerable<ProjectType> allProjectTypes = await knitService.GetAllProjectTypesAsync();
+            KnitInputModel inputModel = new KnitInputModel()
+            {
+                ProjectTypes = allProjectTypes,
+            };
+
+            return View(inputModel);
         }
     }
 }

@@ -145,6 +145,10 @@ body {
 
 .craft-card {
     background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
     border-radius: 24px;
     padding: 2rem 2.5rem;
     text-align: center;
@@ -261,47 +265,72 @@ body {
 .project-title {
     font-size: 1.2rem;
     font-weight: 600;
+    padding: 0 15px;
 }
 
 .project-difficulty {
     font-size: 1rem;
     color: var(--text-soft);
+/*    padding: 0 15px 15px;*/
 }
 
 /* Buttons under each project */
 .project-buttons {
+    margin-top: auto;
+    background-color: #97A87A;
+    padding: 15px;
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 0.5rem;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* Reuse welcome page button colors and hover effects */
-.btn-welcome {
-    font-size: 0.9rem;
-    padding: 0.35rem 0.8rem;
-    border-radius: 12px;
-    color: var(--btn-text);
-    background-color: var(--btn-bg);
+.btn-details {
+    width: 100%;
+}
+
+/* Row for Edit + Delete */
+.button-row {
+    display: flex;
+    gap: 10px;
+}
+
+    .button-row form {
+        flex: 1;
+    }
+
+.button-row .btn {
+    width: 100%;
+}
+
+.btn {
+    padding: 10px;
+    border-radius: 8px;
     border: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
 }
 
-    .btn-welcome:hover {
-        color: var(--btn-hover-text);
-        background-color: var(--btn-hover-bg);
+.btn-edit, .btn-details {
+    background-color: var(--card-bg);
+    color: var(--text-main);
+}
+
+    .btn-edit:hover, .btn-details:hover {
+        background-color: var(--accent);
+        color: white;
     }
 
-    .btn-welcome.btn-danger {
-        background-color: #d77a6b;
-        color: #fff;
-    }
+.btn-delete {
+    background-color: #b04a4a;
+    color: white;
+}
 
-        .btn-welcome.btn-danger:hover {
-            background-color: #c66457;
-            color: #fff;
-        }
+    .btn-delete:hover {
+        background-color: #8c3838;
+    }
 
 /* ===== DETAILS PAGE ===== */
 .project-details-page {
@@ -380,6 +409,119 @@ body {
     align-items: flex-start;
     gap: 2rem;
     flex-wrap: wrap; /* stacks on small screens */
+}
+
+/* Page background */
+.form-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card */
+.form-card {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 6px 18px var(--knit-dark);
+    margin-bottom: 8rem;
+}
+
+/* Title */
+.form-title {
+    color: var(--text-main);
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+    /* Labels */
+    .form-group label {
+        color: var(--text-soft);
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+/* Inputs & Select */
+.form-input,
+.form-select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--knit-dark);
+    background-color: var(--knit-light);
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+    .form-input:focus,
+    .form-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        background-color: white;
+    }
+
+    .form-input[type="url"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%237a6a5c' viewBox='0 0 24 24'%3E%3Cpath d='M3.9 12a5 5 0 0 1 5-5h3v2h-3a3 3 0 0 0 0 6h3v2h-3a5 5 0 0 1-5-5zm6-1h4v2h-4v-2zm5-4h3a5 5 0 1 1 0 10h-3v-2h3a3 3 0 1 0 0-6h-3V7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 16px;
+    padding-left: 35px;
+}
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+        color: var(--text-soft);
+        opacity: 0.4; 
+    }
+
+.form-textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--knit-dark);
+    background-color: var(--knit-light);
+    font-size: 14px;
+    resize: vertical;
+    min-height: 100px;
+    transition: 0.3s ease;
+    color: var(--text-main);
+}
+    .form-textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background-color: white;
+    }
+/* Submit button */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+    .btn-submit:hover {
+        background-color: var(--accent-hover);
+    }
+
+/* Validation */
+.validation-error {
+    color: #b04a4a;
+    font-size: 13px;
+    margin-top: 4px;
 }
 
 .footer {

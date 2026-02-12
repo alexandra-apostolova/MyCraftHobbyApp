@@ -3,11 +3,6 @@ using MyCraftHobbyApp.Data;
 using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyCraftHobbyApp.Services.Core
 {
@@ -51,11 +46,22 @@ namespace MyCraftHobbyApp.Services.Core
             DetailsKnitViewModel viewModel = new DetailsKnitViewModel();
             viewModel.Id = id;
             viewModel.Name = knitProject.Name;
+            viewModel.Description = knitProject.Description;
             viewModel.ImgUrl = knitProject.ImgUrl;
             viewModel.Difficulty = knitProject.ProjectType.Difficulty;
             viewModel.ProjectTypeName = knitProject.ProjectType.Name;
 
             return viewModel;
+        }
+
+        public async Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync()
+        {
+            IEnumerable<ProjectType> allProjectTypes = await dbContext
+                .Types
+                .AsNoTracking()
+                .ToListAsync();
+
+            return allProjectTypes;
         }
     }
 }
