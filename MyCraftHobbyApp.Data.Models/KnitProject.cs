@@ -14,6 +14,9 @@ namespace MyCraftHobbyApp.Data.Models
         [MaxLength(ProjectNameMaxValue)]
         public string Name { get; set; } = null!;
 
+        [MaxLength(ProjectDescriptionMaxValue)]
+        public string? Description { get; set; }
+
         [MaxLength(ProjectImgUrlMaxValue)]
         public string? ImgUrl { get; set; }
 

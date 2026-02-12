@@ -12,5 +12,6 @@ namespace MyCraftHobbyApp.Data.Models
         [Required]
         [MaxLength(StitchPatternNameMaxValue)]
         public string Name { get; set; } = null!;
+
     }
 }

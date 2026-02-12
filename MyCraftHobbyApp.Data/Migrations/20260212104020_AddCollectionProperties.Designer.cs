@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCraftHobbyApp.Data;
 
@@ -11,9 +12,11 @@ using MyCraftHobbyApp.Data;
 namespace MyCraftHobbyApp.Data.Migrations
 {
     [DbContext(typeof(CraftHobbyAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260212104020_AddCollectionProperties")]
+    partial class AddCollectionProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,10 +235,6 @@ namespace MyCraftHobbyApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<string>("ImgUrl")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -263,7 +262,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "A classic granny square blanket created by crocheting individual, decorative square motifs in rounds, starting from the center and expanding outward with sets of 3-double crochet clusters (granny clusters). ",
                             ImgUrl = "https://www.anniedesigncrochet.com/wp-content/uploads/2024/02/rainbow-harmony-blanket-6-sq-768x768.jpg",
                             Name = "Granny Square Blanket",
                             ProjectTypeId = 5,
@@ -272,7 +270,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Crochet a warm and comfortable ribbed beanie, ensuring a snug fit without extra fabric bunching.",
                             ImgUrl = "https://pukapuka.pl/wp-content/uploads/2023/02/img_20221019_110143476-01.jpeg",
                             Name = "Classic Crochet Beanie",
                             ProjectTypeId = 6,
@@ -281,7 +278,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Description = "These Crochet Cotton Slipper Socks are easy to make with any cotton yarn. Make a pair and wear them in any season.",
                             ImgUrl = "https://www.lionbrand.com/cdn/shop/products/Crochet-Pattern-Cozy-Crochet-Socks-90528AD-a_800x.jpg?v=1745090141",
                             Name = "Cozy Crochet Socks",
                             ProjectTypeId = 4,
@@ -296,10 +292,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("ImgUrl")
                         .HasMaxLength(200)
@@ -323,7 +315,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "This lovely scarf is a soft, insulated, and stylish accessory designed for maximum warmth against cold weather",
                             ImgUrl = "https://i.etsystatic.com/10585666/r/il/5a53bf/1215929775/il_570xN.1215929775_1lhw.jpg",
                             Name = "Cozy Winter Scarf",
                             ProjectTypeId = 2
@@ -331,7 +322,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "The Cable Knit Sweater is an elegant sweater worked from the top down in a simple cable pattern. It has wide raglan increases and edges in a double rib stitch that are integrated with the cables. This sweater is a great project for the knitter who would like to learn how to knit cables.",
                             ImgUrl = "https://fridayknits.com/cdn/shop/files/Chunkycableknit2.jpg?v=1717565368&width=1946",
                             Name = "Cable Knit Sweater",
                             ProjectTypeId = 1
@@ -339,7 +329,6 @@ namespace MyCraftHobbyApp.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Description = "This colorful knit throw blanket features an easy, stunning stitch, along with gorgeous soft yarn to create an heirloom worthy project! And if you like solid color blankets, you can do that too.",
                             ImgUrl = "https://thrutheloopscreations.com/cdn/shop/files/StrawberrySundae3.heic?v=1719674594&width=1946",
                             Name = "Chunky Knit Throw Blanket",
                             ProjectTypeId = 5
@@ -499,13 +488,13 @@ namespace MyCraftHobbyApp.Data.Migrations
             modelBuilder.Entity("MyCraftHobbyApp.Data.Models.CrochetProject", b =>
                 {
                     b.HasOne("MyCraftHobbyApp.Data.Models.ProjectType", "ProjectType")
-                        .WithMany()
+                        .WithMany("CrochetProjects")
                         .HasForeignKey("ProjectTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MyCraftHobbyApp.Data.Models.StitchPattern", "StitchPattern")
-                        .WithMany()
+                        .WithMany("CrochetProjects")
                         .HasForeignKey("StitchPatternId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -518,12 +507,24 @@ namespace MyCraftHobbyApp.Data.Migrations
             modelBuilder.Entity("MyCraftHobbyApp.Data.Models.KnitProject", b =>
                 {
                     b.HasOne("MyCraftHobbyApp.Data.Models.ProjectType", "ProjectType")
-                        .WithMany()
+                        .WithMany("KnitProjects")
                         .HasForeignKey("ProjectTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProjectType");
+                });
+
+            modelBuilder.Entity("MyCraftHobbyApp.Data.Models.ProjectType", b =>
+                {
+                    b.Navigation("CrochetProjects");
+
+                    b.Navigation("KnitProjects");
+                });
+
+            modelBuilder.Entity("MyCraftHobbyApp.Data.Models.StitchPattern", b =>
+                {
+                    b.Navigation("CrochetProjects");
                 });
 #pragma warning restore 612, 618
         }

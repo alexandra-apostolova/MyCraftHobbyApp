@@ -15,5 +15,6 @@ namespace MyCraftHobbyApp.Data.Models
 
         [Required]
         public Difficulty Difficulty { get; set; }
+
     }
 }
