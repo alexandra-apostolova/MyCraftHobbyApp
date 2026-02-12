@@ -85,5 +85,38 @@ namespace MyCraftHobbyApp.Services.Core
                 throw;
             }
         }
+
+        public async Task<KnitProject> GetKnitProject(int id)
+        {
+            if (id <= 0)
+            {
+                throw new InvalidOperationException("Id can't be zero or negative!");
+            }
+
+            return await dbContext.KnitProjects.SingleOrDefaultAsync(k => k.Id == id);
+        }
+
+        public async Task<bool> CheckIsValidProjectIdAsync(KnitInputModel model)
+        {
+            return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
+        }
+
+        public async Task EditExistingKnitProject(KnitProject knitProject, KnitInputModel inputModel)
+        {
+            try
+            {
+                knitProject.Name = inputModel.Name;
+                knitProject.Description = inputModel.Description;
+                knitProject.ImgUrl = inputModel.ImgUrl;
+                knitProject.ProjectTypeId = inputModel.ProjectTypeId;
+
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

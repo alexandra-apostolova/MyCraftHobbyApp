@@ -98,5 +98,15 @@ namespace MyCraftHobbyApp.Services.Core
                 throw;
             }
         }
+
+        public async Task<CrochetProject> GetCrochetProjectAsync(int id)
+        {
+            if (id <= 0)
+            {
+                throw new InvalidOperationException("Id can't be zero or negative!");
+            }
+
+            return await dbContext.CrochetProjects.SingleOrDefaultAsync(k => k.Id == id);
+        }
     }
 }

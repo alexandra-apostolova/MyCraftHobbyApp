@@ -64,5 +64,37 @@ namespace MyCraftHobbyApp.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            CrochetProject crochetProject = await crochetService.GetCrochetProjectAsync(id);
+            if (crochetProject == null)
+            {
+                return NotFound();
+            }
+
+            var projectTypes = await crochetService.GetAllProjectTypesAsync();
+            var stitchPatterns = await crochetService.GetAllStitchPatternAsync();
+
+            CrochetInputModel model = new CrochetInputModel()
+            {
+                Id = id,
+                Name = crochetProject.Name,
+                Description = crochetProject.Description,
+                ImgUrl = crochetProject.ImgUrl,
+                ProjectTypeId = crochetProject.ProjectTypeId,
+                ProjectTypes = projectTypes,
+                StitchPatternId = crochetProject.StitchPatternId,
+                StitchPatterns = stitchPatterns
+            };
+
+            return View(model);
+        }
     }
 }

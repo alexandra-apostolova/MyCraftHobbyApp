@@ -10,5 +10,8 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<DetailsKnitViewModel> GetDetailsForKnitModelAsync(int id);
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task AddNewKnitProject(KnitInputModel inputModel);
+        Task<KnitProject> GetKnitProject(int id);
+        Task<bool> CheckIsValidProjectIdAsync(KnitInputModel model);
+        Task EditExistingKnitProject(KnitProject project, KnitInputModel model);
     }
 }

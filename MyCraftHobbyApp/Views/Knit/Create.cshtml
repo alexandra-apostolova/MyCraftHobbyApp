@@ -11,11 +11,7 @@
         .ToList();
 }
 
-<div class="header">
-    <a asp-controller="Knit" asp-action="All" class="craft-button">
-        Back to Projects
-    </a>
-</div>
+
 <div class="form-page">
     <div class="form-card">
         <h2 class="form-title">Add Knit Project</h2>
@@ -57,6 +53,9 @@
             </div>
 
             <button type="submit" class="btn-submit">Add Project</button>
+            <a asp-controller="Knit" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
+                Cancel
+            </a>
         </form>
     </div>
 </div>

@@ -1,7 +1,7 @@
 ﻿@model CrochetInputModel
 
 @{
-    ViewData["Title"] = "Add Knit Project";
+    ViewData["Title"] = "Crochet Knit Project";
     IEnumerable<SelectListItem> allProjectTypes = Model.ProjectTypes
         .Select(p => new SelectListItem()
         {
@@ -19,11 +19,12 @@
     .ToList();
 }
 
+
 <div class="form-page">
     <div class="form-card">
-        <h2 class="form-title">Add Crochet Project</h2>
+        <h2 class="form-title">Edit Crochet Project</h2>
 
-        <form asp-action="Create" method="post">
+        <form asp-action="Edit" method="post">
 
             <div class="form-group">
                 <label asp-for="Name"></label>
@@ -67,7 +68,7 @@
                 <span asp-validation-for="ProjectTypeId" class="validation-error"></span>
             </div>
 
-            <button type="submit" class="btn-submit">Add Project</button>
+            <button type="submit" class="btn-submit">Save Changes</button>
             <a asp-controller="Crochet" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
                 Cancel
             </a>

@@ -19,7 +19,9 @@
             {
                 <div class="craft-card">
                     <div class="craft-image-wrapper">
-                        <img src="@Url.Content(project.ImgUrl)"
+                        <img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+                                                    ? "~/images/Screenshot 2026-02-12 153744.png"
+                                                    : project.ImgUrl)"
                              alt="@project.Name"
                              class="craft-image" />
                     </div>
@@ -32,9 +34,9 @@
                             View Details
                         </a>
                         <div class="button-row">
-                            <form asp-controller="Crochet" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
+                            <a asp-controller="Crochet" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
                                 Edit
-                            </form>
+                            </a>
                             <form asp-controller="Crochet" asp-action="Delete" asp-route-id="@project.Id" method="post" style="display:inline;">
                                 <button type="submit" class="btn btn-delete btn-danger">Delete</button>
                             </form>

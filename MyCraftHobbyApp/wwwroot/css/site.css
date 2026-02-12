@@ -78,14 +78,6 @@ html {
         color: var(--accent);
     }
 
-/* Toggler button (mobile) */
-.navbar-toggler {
-    border: none;
-}
-
-    .navbar-toggler:focus {
-        box-shadow: none;
-    }
 
 /* Soft hamburger icon */
 .navbar-light .navbar-toggler-icon {
@@ -103,6 +95,8 @@ html {
     --accent-hover: #97A87A;
     --text-main: #4a3f35;
     --text-soft: #7a6a5c;
+    --background-image-pattern: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.35) 6px, transparent 7px), 
+        radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.04) 6px, transparent 7px);
 }
 
 /* Global body styling */
@@ -111,15 +105,11 @@ body {
     padding: 0;
     font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
     color: var(--text-main);
-    background-color: var(--bg-base);
-    /* Subtle knit texture */
-    background-image: 
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.35) 6px, transparent 7px), 
-        radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.04) 6px, transparent 7px);
+    background-color: var(--bg-base); 
+    background-image: var(--background-image-pattern);
     background-size: 36px 36px;
 }
 
-/* Welcome page */
 .welcome-container {
     min-height: 100vh;
     display: flex;
@@ -428,6 +418,7 @@ body {
     max-width: 500px;
     box-shadow: 0 6px 18px var(--knit-dark);
     margin-bottom: 8rem;
+    margin-top: 3rem;
 }
 
 /* Title */
@@ -517,6 +508,23 @@ body {
         background-color: var(--accent-hover);
     }
 
+.btn-cancel {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--text-main);
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 1em;
+}
+
+    .btn-cancel:hover {
+        background-color: var(--bg-base)
+    }
 /* Validation */
 .validation-error {
     color: #b04a4a;

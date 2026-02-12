@@ -1,7 +1,7 @@
-﻿@model CrochetInputModel
+﻿@model KnitInputModel
 
 @{
-    ViewData["Title"] = "Add Knit Project";
+    ViewData["Title"] = "Edit Knit Project";
     IEnumerable<SelectListItem> allProjectTypes = Model.ProjectTypes
         .Select(p => new SelectListItem()
         {
@@ -9,21 +9,14 @@
             Value = p.Id.ToString()
         })
         .ToList();
-
-    IEnumerable<SelectListItem> allStitchPatterns = Model.StitchPatterns
-    .Select(p => new SelectListItem()
-    {
-        Text = p.Name,
-        Value = p.Id.ToString()
-    })
-    .ToList();
 }
+
 
 <div class="form-page">
     <div class="form-card">
-        <h2 class="form-title">Add Crochet Project</h2>
+        <h2 class="form-title">Edit Knit Project</h2>
 
-        <form asp-action="Create" method="post">
+        <form asp-action="Edit" method="post">
 
             <div class="form-group">
                 <label asp-for="Name"></label>
@@ -48,15 +41,7 @@
                        placeholder="https://example.com/image.jpg" />
                 <span asp-validation-for="ImgUrl" class="validation-error"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="StitchPatternId">Stitch Pattern</label>
-                <select asp-for="StitchPatternId"
-                        asp-items="allStitchPatterns"
-                        class="form-select">
-                    <option value="">-- Select Stitch Pattern --</option>
-                </select>
-                <span asp-validation-for="StitchPatternId" class="validation-error"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="ProjectTypeId">Project Type</label>
                 <select asp-for="ProjectTypeId"
@@ -67,8 +52,8 @@
                 <span asp-validation-for="ProjectTypeId" class="validation-error"></span>
             </div>
 
-            <button type="submit" class="btn-submit">Add Project</button>
-            <a asp-controller="Crochet" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
+            <button type="submit" class="btn-submit">Save Changes</button>
+            <a asp-controller="Knit" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
                 Cancel
             </a>
         </form>

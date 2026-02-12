@@ -34,7 +34,10 @@
             </div>
 
             <div class="details-image-wrapper">
-                <img src="@Url.Content(Model.ImgUrl)" alt="@Model.Name" class="details-image" />
+                <img src="@Url.Content(string.IsNullOrEmpty(Model.ImgUrl)
+                                                                         ? "~/images/Screenshot 2026-02-12 153744.png"
+                                                                         : Model.ImgUrl)" 
+                alt="@Model.Name" class="details-image" />
             </div>
         </div>
     </div>

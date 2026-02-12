@@ -60,5 +60,58 @@ namespace MyCraftHobbyApp.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            KnitProject knitProject = await knitService.GetKnitProject(id);
+            if (knitProject == null)
+            {
+                return NotFound();
+            }
+
+            var projectTypes = await knitService.GetAllProjectTypesAsync();
+            KnitInputModel model = new KnitInputModel()
+            {
+                Id = id,
+                Name = knitProject.Name,
+                Description = knitProject.Description,
+                ImgUrl = knitProject.ImgUrl,
+                ProjectTypeId = knitProject.ProjectTypeId,
+                ProjectTypes = projectTypes
+            };
+
+            return View(model); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, KnitInputModel inputModel)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            KnitProject knitProject = await knitService.GetKnitProject(id);
+            if (knitProject == null)
+            {
+                return NotFound();
+            }
+
+            bool isValidProjectType = await knitService.CheckIsValidProjectIdAsync(inputModel);
+            if (!isValidProjectType)
+            {
+                return BadRequest();
+            }
+
+            await knitService.EditExistingKnitProject(knitProject, inputModel);
+
+            return RedirectToAction(nameof(Details), new {id});
+        }
     }
 }

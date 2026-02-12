@@ -16,5 +16,6 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync();
         Task AddNewCrochetProject(CrochetInputModel inputModel);
+        Task<CrochetProject> GetCrochetProjectAsync(int id);
     }
 }

@@ -6,7 +6,10 @@ using static MyCraftHobbyApp.GCommon.EntityValidation;
 namespace MyCraftHobbyApp.ViewModels
 {
     public class KnitInputModel
-    {
+    {   
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         [MaxLength(ProjectNameMaxValue)]
         [MinLength(ProjectNameMinValue)]
