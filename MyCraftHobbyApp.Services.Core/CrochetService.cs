@@ -76,7 +76,7 @@ namespace MyCraftHobbyApp.Services.Core
             return allStitchPatterns;
         }
 
-        public async Task AddNewCrochetProject(CrochetInputModel inputModel)
+        public async Task AddNewCrochetProjectAsync(CrochetInputModel inputModel)
         {
             try
             {
@@ -107,6 +107,35 @@ namespace MyCraftHobbyApp.Services.Core
             }
 
             return await dbContext.CrochetProjects.SingleOrDefaultAsync(k => k.Id == id);
+        }
+
+        public async Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model)
+        {
+            return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
+        }
+
+        public async Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model)
+        {
+            return await dbContext.Patterns.AnyAsync(p => p.Id == model.StitchPatternId);
+        }
+
+       public async Task EditExistingCrochetProjectAsync(CrochetProject crochetProject, CrochetInputModel inputModel)
+        {
+            try
+            {
+                crochetProject.Name = inputModel.Name;
+                crochetProject.Description = inputModel.Description;
+                crochetProject.ImgUrl = inputModel.ImgUrl;
+                crochetProject.StitchPatternId = inputModel.StitchPatternId;
+                crochetProject.ProjectTypeId = inputModel.ProjectTypeId;
+
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            await knitService.AddNewKnitProject(inputModel);
+            await knitService.AddNewKnitProjectAsync(inputModel);
 
             return RedirectToAction(nameof(All));
         }
@@ -69,7 +69,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            KnitProject knitProject = await knitService.GetKnitProject(id);
+            KnitProject knitProject = await knitService.GetKnitProjectAsync(id);
             if (knitProject == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            KnitProject knitProject = await knitService.GetKnitProject(id);
+            KnitProject knitProject = await knitService.GetKnitProjectAsync(id);
             if (knitProject == null)
             {
                 return NotFound();
@@ -109,7 +109,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            await knitService.EditExistingKnitProject(knitProject, inputModel);
+            await knitService.EditExistingKnitProjectAsync(knitProject, inputModel);
 
             return RedirectToAction(nameof(Details), new {id});
         }

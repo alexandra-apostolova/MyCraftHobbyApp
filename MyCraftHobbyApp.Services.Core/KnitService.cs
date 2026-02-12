@@ -64,7 +64,7 @@ namespace MyCraftHobbyApp.Services.Core
             return allProjectTypes;
         }
 
-        public async Task AddNewKnitProject(KnitInputModel inputModel)
+        public async Task AddNewKnitProjectAsync(KnitInputModel inputModel)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace MyCraftHobbyApp.Services.Core
             }
         }
 
-        public async Task<KnitProject> GetKnitProject(int id)
+        public async Task<KnitProject> GetKnitProjectAsync(int id)
         {
             if (id <= 0)
             {
@@ -101,7 +101,7 @@ namespace MyCraftHobbyApp.Services.Core
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
         }
 
-        public async Task EditExistingKnitProject(KnitProject knitProject, KnitInputModel inputModel)
+        public async Task EditExistingKnitProjectAsync(KnitProject knitProject, KnitInputModel inputModel)
         {
             try
             {

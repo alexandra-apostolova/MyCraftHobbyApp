@@ -60,7 +60,7 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            await crochetService.AddNewCrochetProject(inputModel);
+            await crochetService.AddNewCrochetProjectAsync(inputModel);
 
             return RedirectToAction(nameof(All));
         }
@@ -95,6 +95,33 @@ namespace MyCraftHobbyApp.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, CrochetInputModel inputModel)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            CrochetProject knitProject = await crochetService.GetCrochetProjectAsync(id);
+            if (knitProject == null)
+            {
+                return NotFound();
+            }
+
+            bool isValidProjectType = await crochetService.CheckIsValidProjectIdAsync(inputModel);
+            bool isValidStitchPattern = await crochetService.CheckIsValidStitchIdAsync(inputModel);
+
+            if (!isValidProjectType || !isValidStitchPattern)
+            {
+                return BadRequest();
+            }
+
+            await crochetService.EditExistingCrochetProjectAsync(knitProject, inputModel);
+
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

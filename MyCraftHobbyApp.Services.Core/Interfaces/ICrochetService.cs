@@ -1,10 +1,6 @@
 ﻿using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MyCraftHobbyApp.Services.Core.Interfaces
 {
@@ -15,7 +11,10 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id);
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync();
-        Task AddNewCrochetProject(CrochetInputModel inputModel);
+        Task AddNewCrochetProjectAsync(CrochetInputModel inputModel);
         Task<CrochetProject> GetCrochetProjectAsync(int id);
+        Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model);
+        Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model);
+        Task EditExistingCrochetProjectAsync(CrochetProject project, CrochetInputModel model);
     }
 }
