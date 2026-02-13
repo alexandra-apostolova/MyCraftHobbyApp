@@ -154,7 +154,7 @@ namespace MyCraftHobbyApp.Services.Core
 
             }
             catch (Exception)
-            {
+            { 
 
                 throw;
             }

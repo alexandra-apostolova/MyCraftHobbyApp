@@ -17,10 +17,16 @@
 
         <!-- Details + Image -->
         <div class="details-content">
+            <div class="patchwork-square">
+                <div class="patch-content">
+                    <p><strong>Difficulty:</strong> @Model.Difficulty</p>
+                    <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
+                    <p><strong>Stitch Pattern:</strong> @Model.StitchPattern</p>
+                </div>
+            </div>
+
             <div class="details-text">
-                <p><strong>Difficulty:</strong> @Model.Difficulty</p>
-                <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
-                <p><strong>Stitch Pattern:</strong> @Model.StitchPattern</p>
+                
                 <p>@Model.Description</p>
 
                 <div class="details-buttons">
