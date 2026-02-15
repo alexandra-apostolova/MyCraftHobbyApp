@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyCraftHobbyApp.Data.Models;
 
 namespace MyCraftHobbyApp.Data
 {
-    public class CraftHobbyAppDbContext : IdentityDbContext
+    public class CraftHobbyAppDbContext : IdentityDbContext<IdentityUser>
     {
         public CraftHobbyAppDbContext(DbContextOptions<CraftHobbyAppDbContext> options)
             : base(options)
