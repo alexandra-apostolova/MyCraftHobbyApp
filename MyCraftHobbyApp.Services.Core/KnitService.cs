@@ -13,9 +13,9 @@ namespace MyCraftHobbyApp.Services.Core
         {
             this.dbContext = dbContext;
         }
-
-        public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync()
+        public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string userId)
         {
+            
             ICollection<AllViewModel> knitProjects = await dbContext.KnitProjects
                 .Include(k => k.ProjectType)
                 .AsNoTracking()
@@ -24,7 +24,7 @@ namespace MyCraftHobbyApp.Services.Core
                     Id = k.Id,
                     Name = k.Name,
                     ImgUrl = k.ImgUrl,
-                    Difficulty = k.ProjectType.Difficulty
+                    Difficulty = k.ProjectType.Difficulty,
                 })
                 .OrderBy(k => k.Name)
                 .ThenBy(k => k.Difficulty)

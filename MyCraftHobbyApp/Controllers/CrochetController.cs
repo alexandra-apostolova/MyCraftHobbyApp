@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
 namespace MyCraftHobbyApp.Controllers
 {
-    public class CrochetController : Controller
+    public class CrochetController : BaseController
     {
         private readonly ICrochetService crochetService;
         private readonly ILogger<CrochetController> logger;
@@ -14,6 +15,8 @@ namespace MyCraftHobbyApp.Controllers
             this.crochetService = crochetService;
             this.logger = logger;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             ICollection<AllViewModel> viewModel 
@@ -22,6 +25,7 @@ namespace MyCraftHobbyApp.Controllers
             return View(viewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             if (id <= 0)

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
 namespace MyCraftHobbyApp.Controllers
 {
-    public class KnitController : Controller
+    public class KnitController : BaseController
     {
         private readonly IKnitService knitService;
         private readonly ILogger<KnitController> logger;
@@ -14,14 +15,18 @@ namespace MyCraftHobbyApp.Controllers
             this.knitService = knitService;
             this.logger = logger;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
+            string? currentUserId = GetUserId();
             ICollection<AllViewModel> viewModel 
-                = await knitService.GetAllKnitProjectsAsync();
+                = await knitService.GetAllKnitProjectsAsync(currentUserId);
 
             return View(viewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             if (id <= 0)

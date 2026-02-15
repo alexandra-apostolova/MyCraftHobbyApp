@@ -1,49 +1,65 @@
-﻿@model ICollection<AllViewModel>
+﻿@using System.Security.Claims
+@model ICollection<AllViewModel>
 
 @{
-    ViewData["Title"] = "All Crochet Projects";
+	ViewData["Title"] = "All Crochet Projects";
+	string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <section class="projects-page">
-    <div class="container">
-        <!-- Title + Add Button -->
-        <div class="projects-header">
-            <h1 class="projects-title">All Crochet Projects</h1>
-            <a asp-controller="Crochet" asp-action="Create" class="craft-button">
-                + Add New Project
-            </a>
-        </div>
+	<div class="container">
+		<!-- Title + Add Button -->
+		<div class="projects-header">
+			<h1 class="projects-title">All Crochet Projects</h1>
+			<a asp-controller="Crochet" asp-action="Create" class="craft-button">
+				+ Add New Project
+			</a>
+		</div>
 
-        <div class="projects-row">
-            @foreach (var project in Model)
-            {
-                <div class="craft-card">
-                    <div class="craft-image-wrapper">
-                        <img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
-                                                    ? "~/images/istockphoto-1311419248-612x612.jpg"
-                                                    : project.ImgUrl)"
-                             alt="@project.Name"
-                             class="craft-image" />
-                    </div>
+		<div class="projects-row">
+			@foreach (var project in Model)
+			{
+				<div class="craft-card">
+					<div class="craft-image-wrapper">
+						<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																  ? "~/images/istockphoto-1311419248-612x612.jpg"
+																  : project.ImgUrl)"
+						 alt="@project.Name"
+						 class="craft-image" />
+				</div>
 
-                    <h3 class="project-title">@project.Name</h3>
-                    <p class="project-difficulty">@project.Difficulty</p>
+					<h3 class="project-title">@project.Name</h3>
+					<p class="project-difficulty">@project.Difficulty</p>
 
-                    <div class="project-buttons">
-                        <a asp-controller="Crochet" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
-                            View Details
-                        </a>
-                        <div class="button-row">
-                            <a asp-controller="Crochet" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
-                                Edit
-                            </a>
-                            <a asp-controller="Crochet" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger">
-                                Delete
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+					<div class="project-buttons">
+						<a asp-controller="Crochet" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
+							View Details
+						</a>
+					@if (currentUserId == project.UserId)
+						{
+							<div class="button-row">
+								<a asp-controller="Crochet" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
+									Edit
+								</a>
+								<a asp-controller="Crochet" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger">
+									Delete
+								</a>
+							</div>
+						}
+						else
+						{
+							<div class="button-row">
+								<a asp-controller="Crochet" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit disabled">
+									Edit
+								</a>
+								<a asp-controller="Crochet" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger disabled">
+									Delete
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			}
+		</div>
+	</div>
 </section>

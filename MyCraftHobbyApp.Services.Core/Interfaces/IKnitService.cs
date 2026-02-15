@@ -6,7 +6,7 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
 {
     public interface IKnitService
     {
-        Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync();
+        Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string userId);
         Task<DetailsKnitViewModel> GetDetailsForKnitModelAsync(int id);
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task<bool> AddNewKnitProjectAsync(KnitInputModel inputModel);
