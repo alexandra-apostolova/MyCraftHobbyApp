@@ -13,7 +13,7 @@ namespace MyCraftHobbyApp.Services.Core
         {
             this.dbContext = dbContext;
         }
-        public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string userId)
+        public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string currentUserId)
         {
             
             ICollection<AllViewModel> knitProjects = await dbContext.KnitProjects
@@ -25,6 +25,7 @@ namespace MyCraftHobbyApp.Services.Core
                     Name = k.Name,
                     ImgUrl = k.ImgUrl,
                     Difficulty = k.ProjectType.Difficulty,
+                    UserId = k.UserId == currentUserId ? k.UserId : null
                 })
                 .OrderBy(k => k.Name)
                 .ThenBy(k => k.Difficulty)
@@ -64,7 +65,7 @@ namespace MyCraftHobbyApp.Services.Core
             return allProjectTypes;
         }
 
-        public async Task<bool> AddNewKnitProjectAsync(KnitInputModel inputModel)
+        public async Task<bool> AddNewKnitProjectAsync(KnitInputModel inputModel, string currentUserId)
         {
             bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
             if (!isValidProjectType)
@@ -77,7 +78,8 @@ namespace MyCraftHobbyApp.Services.Core
                 Name = inputModel.Name,
                 Description = inputModel.Description,
                 ImgUrl = inputModel.ImgUrl,
-                ProjectTypeId = inputModel.ProjectTypeId
+                ProjectTypeId = inputModel.ProjectTypeId,
+                UserId = currentUserId
             };
 
             await dbContext.KnitProjects.AddAsync(projectToAdd);

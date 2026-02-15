@@ -58,6 +58,7 @@ namespace MyCraftHobbyApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(KnitInputModel inputModel)
         {
+            string? currentUserId = GetUserId();
             if (!ModelState.IsValid)
             {
                 return View(inputModel);
@@ -65,7 +66,7 @@ namespace MyCraftHobbyApp.Controllers
 
             try
             {
-                bool result = await knitService.AddNewKnitProjectAsync(inputModel);
+                bool result = await knitService.AddNewKnitProjectAsync(inputModel, currentUserId);
                 if (!result)
                 {
                     return BadRequest();
