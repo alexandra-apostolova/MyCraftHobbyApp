@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.AspNetCore.Identity;
 
 namespace MyCraftHobbyApp.Data.Models.Interfaces
 {
@@ -12,5 +9,7 @@ namespace MyCraftHobbyApp.Data.Models.Interfaces
         string Name { get; }
         string? ImgUrl { get; }
         ProjectType ProjectType { get; }
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

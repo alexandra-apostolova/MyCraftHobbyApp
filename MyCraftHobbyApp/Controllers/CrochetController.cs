@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCraftHobbyApp.Data.Models;
-using MyCraftHobbyApp.Services.Core;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -9,9 +8,11 @@ namespace MyCraftHobbyApp.Controllers
     public class CrochetController : Controller
     {
         private readonly ICrochetService crochetService;
-        public CrochetController(ICrochetService crochetService)
+        private readonly ILogger<CrochetController> logger;
+        public CrochetController(ICrochetService crochetService, ILogger<CrochetController> logger)
         {
             this.crochetService = crochetService;
+            this.logger = logger;
         }
         public async Task<IActionResult> All()
         {
@@ -57,18 +58,23 @@ namespace MyCraftHobbyApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(inputModel);
             }
 
-            bool isValidProjectType = await crochetService.CheckIsValidProjectIdAsync(inputModel);
-            bool isValidStitchPattern = await crochetService.CheckIsValidStitchIdAsync(inputModel);
-
-            if (!isValidProjectType || !isValidStitchPattern)
+            try
             {
-                return BadRequest();
+                bool result = await crochetService.AddNewCrochetProjectAsync(inputModel);
+                if (!result)
+                {
+                    return BadRequest();
+                }
             }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
 
-            await crochetService.AddNewCrochetProjectAsync(inputModel);
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
 
             return RedirectToAction(nameof(All));
         }
@@ -112,6 +118,10 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
 
             CrochetProject knitProject = await crochetService.GetCrochetProjectAsync(id);
             if (knitProject == null)
@@ -119,15 +129,21 @@ namespace MyCraftHobbyApp.Controllers
                 return NotFound();
             }
 
-            bool isValidProjectType = await crochetService.CheckIsValidProjectIdAsync(inputModel);
-            bool isValidStitchPattern = await crochetService.CheckIsValidStitchIdAsync(inputModel);
-
-            if (!isValidProjectType || !isValidStitchPattern)
+            try
             {
-                return BadRequest();
+                bool result = await crochetService.EditExistingCrochetProjectAsync(knitProject, inputModel);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
             }
 
-            await crochetService.EditExistingCrochetProjectAsync(knitProject, inputModel);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -163,13 +179,21 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            CrochetProject? projectToDelete = await crochetService.GetCrochetProjectAsync(id);
-            if (projectToDelete == null)
+            try
             {
-                return NotFound();
-            }
+                bool result = await crochetService.DeleteCrochetProjectAsync(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
 
-            await crochetService.DeleteCrochetProjectAsync(projectToDelete);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
 
             return RedirectToAction(nameof(All));
         }

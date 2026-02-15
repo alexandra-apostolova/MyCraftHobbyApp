@@ -76,27 +76,68 @@ namespace MyCraftHobbyApp.Services.Core
             return allStitchPatterns;
         }
 
-        public async Task AddNewCrochetProjectAsync(CrochetInputModel inputModel)
+        public async Task<bool> AddNewCrochetProjectAsync(CrochetInputModel inputModel)
         {
-            try
-            {
-                CrochetProject projectToAdd = new CrochetProject
-                {
-                    Name = inputModel.Name,
-                    Description = inputModel.Description,
-                    ImgUrl = inputModel.ImgUrl,
-                    StitchPatternId = inputModel.StitchPatternId,
-                    ProjectTypeId = inputModel.ProjectTypeId
-                };
+            bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
+            bool isValidStitchPattern = await CheckIsValidStitchIdAsync(inputModel);
 
-                await dbContext.CrochetProjects.AddAsync(projectToAdd);
-                await dbContext.SaveChangesAsync();
-            }
-            catch (Exception)
+            if (!isValidProjectType || !isValidStitchPattern)
             {
-
-                throw;
+                return false;
             }
+
+            CrochetProject projectToAdd = new CrochetProject
+            {
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                ImgUrl = inputModel.ImgUrl,
+                StitchPatternId = inputModel.StitchPatternId,
+                ProjectTypeId = inputModel.ProjectTypeId
+            };
+
+            await dbContext.CrochetProjects.AddAsync(projectToAdd);
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model)
+        {
+            return await dbContext.Patterns.AnyAsync(p => p.Id == model.StitchPatternId);
+        }
+
+        public async Task<bool> EditExistingCrochetProjectAsync(CrochetProject crochetProject, CrochetInputModel inputModel)
+        {
+            bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
+            bool isValidStitchPattern = await CheckIsValidStitchIdAsync(inputModel);
+
+            if (!isValidProjectType || !isValidStitchPattern)
+            {
+                return false;
+            }
+
+            crochetProject.Name = inputModel.Name;
+            crochetProject.Description = inputModel.Description;
+            crochetProject.ImgUrl = inputModel.ImgUrl;
+            crochetProject.StitchPatternId = inputModel.StitchPatternId;
+            crochetProject.ProjectTypeId = inputModel.ProjectTypeId;
+
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteCrochetProjectAsync(int id)
+        {
+            CrochetProject? crochetProject = await GetCrochetProjectAsync(id);
+            if (crochetProject == null)
+            {
+                return false;
+            }
+
+            dbContext.CrochetProjects.Remove(crochetProject);
+            await dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<CrochetProject> GetCrochetProjectAsync(int id)
@@ -118,46 +159,6 @@ namespace MyCraftHobbyApp.Services.Core
         public async Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model)
         {
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
-        }
-
-        public async Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model)
-        {
-            return await dbContext.Patterns.AnyAsync(p => p.Id == model.StitchPatternId);
-        }
-
-       public async Task EditExistingCrochetProjectAsync(CrochetProject crochetProject, CrochetInputModel inputModel)
-        {
-            try
-            {
-                crochetProject.Name = inputModel.Name;
-                crochetProject.Description = inputModel.Description;
-                crochetProject.ImgUrl = inputModel.ImgUrl;
-                crochetProject.StitchPatternId = inputModel.StitchPatternId;
-                crochetProject.ProjectTypeId = inputModel.ProjectTypeId;
-
-                await dbContext.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public async Task DeleteCrochetProjectAsync(CrochetProject crochetProject)
-        {
-
-            try
-            {
-                dbContext.CrochetProjects.Remove(crochetProject);
-                await dbContext.SaveChangesAsync();
-
-            }
-            catch (Exception)
-            { 
-
-                throw;
-            }
         }
     }
 }

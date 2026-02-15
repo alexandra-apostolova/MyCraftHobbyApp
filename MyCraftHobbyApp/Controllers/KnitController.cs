@@ -8,9 +8,11 @@ namespace MyCraftHobbyApp.Controllers
     public class KnitController : Controller
     {
         private readonly IKnitService knitService;
-        public KnitController(IKnitService knitService)
+        private readonly ILogger<KnitController> logger;
+        public KnitController(IKnitService knitService, ILogger<KnitController> logger)
         {
             this.knitService = knitService;
+            this.logger = logger;
         }
         public async Task<IActionResult> All()
         {
@@ -53,16 +55,24 @@ namespace MyCraftHobbyApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(inputModel);
             }
 
-            bool isValidProjectType = await knitService.CheckIsValidProjectIdAsync(inputModel);
-            if (!isValidProjectType)
+            try
             {
-                return BadRequest();
+                bool result = await knitService.AddNewKnitProjectAsync(inputModel);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
             }
 
-            await knitService.AddNewKnitProjectAsync(inputModel);
 
             return RedirectToAction(nameof(All));
         }
@@ -102,6 +112,10 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
 
             KnitProject knitProject = await knitService.GetKnitProjectAsync(id);
             if (knitProject == null)
@@ -109,13 +123,21 @@ namespace MyCraftHobbyApp.Controllers
                 return NotFound();
             }
 
-            bool isValidProjectType = await knitService.CheckIsValidProjectIdAsync(inputModel);
-            if (!isValidProjectType)
+            try
             {
-                return BadRequest();
-            }
+                bool result = await knitService.EditExistingKnitProjectAsync(knitProject, inputModel);
+                if (!result)
+                {
+                    return BadRequest();
+                }
 
-            await knitService.EditExistingKnitProjectAsync(knitProject, inputModel);
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
 
             return RedirectToAction(nameof(Details), new {id});
         }
@@ -151,13 +173,21 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            KnitProject? projectToDelete = await knitService.GetKnitProjectAsync(id);
-            if (projectToDelete == null)
+            try
             {
-                return NotFound();
+                bool result = await knitService.DeleteKnitProjectAsync(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
             }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
 
-            await knitService.DeleteKnitProjectAsync(projectToDelete);
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+           
 
             return RedirectToAction(nameof(All));
         }

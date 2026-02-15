@@ -1,4 +1,5 @@
-﻿using MyCraftHobbyApp.Data.Models.Interfaces;
+﻿using Microsoft.AspNetCore.Identity;
+using MyCraftHobbyApp.Data.Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static MyCraftHobbyApp.GCommon.EntityValidation;
@@ -25,5 +26,12 @@ namespace MyCraftHobbyApp.Data.Models
 
         [Required]
         public ProjectType ProjectType { get; set; } = null!;
+
+        [Required]
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; } = null!;
+
+        [Required]
+        public IdentityUser User { get; set; } = null!;
     }
 }

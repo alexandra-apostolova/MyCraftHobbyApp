@@ -64,26 +64,54 @@ namespace MyCraftHobbyApp.Services.Core
             return allProjectTypes;
         }
 
-        public async Task AddNewKnitProjectAsync(KnitInputModel inputModel)
+        public async Task<bool> AddNewKnitProjectAsync(KnitInputModel inputModel)
         {
-            try
+            bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
+            if (!isValidProjectType)
             {
-                KnitProject projectToAdd = new KnitProject
-                {
-                    Name = inputModel.Name,
-                    Description = inputModel.Description,
-                    ImgUrl = inputModel.ImgUrl,
-                    ProjectTypeId = inputModel.ProjectTypeId
-                };
-
-                await dbContext.KnitProjects.AddAsync(projectToAdd);
-                await dbContext.SaveChangesAsync();
+                return false;
             }
-            catch (Exception)
+
+            KnitProject projectToAdd = new KnitProject
             {
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                ImgUrl = inputModel.ImgUrl,
+                ProjectTypeId = inputModel.ProjectTypeId
+            };
 
-                throw;
+            await dbContext.KnitProjects.AddAsync(projectToAdd);
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> EditExistingKnitProjectAsync(KnitProject knitProject, KnitInputModel inputModel)
+        {
+            bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
+            if (!isValidProjectType)
+            {
+                return false;
             }
+
+            knitProject.Name = inputModel.Name;
+            knitProject.Description = inputModel.Description;
+            knitProject.ImgUrl = inputModel.ImgUrl;
+            knitProject.ProjectTypeId = inputModel.ProjectTypeId;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteKnitProjectAsync(int id)
+        {
+            KnitProject? knitProject = await GetKnitProjectAsync(id);
+            if (knitProject == null)
+            {
+                return false;
+            }
+            dbContext.KnitProjects.Remove(knitProject);
+            await dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<KnitProject> GetKnitProjectAsync(int id)
@@ -105,40 +133,6 @@ namespace MyCraftHobbyApp.Services.Core
         public async Task<bool> CheckIsValidProjectIdAsync(KnitInputModel model)
         {
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
-        }
-
-        public async Task EditExistingKnitProjectAsync(KnitProject knitProject, KnitInputModel inputModel)
-        {
-            try
-            {
-                knitProject.Name = inputModel.Name;
-                knitProject.Description = inputModel.Description;
-                knitProject.ImgUrl = inputModel.ImgUrl;
-                knitProject.ProjectTypeId = inputModel.ProjectTypeId;
-
-                await dbContext.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public async Task DeleteKnitProjectAsync(KnitProject knitProject)
-        {
-            
-            try
-            {
-                dbContext.KnitProjects.Remove(knitProject);
-                await dbContext.SaveChangesAsync();
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
     }
 }
