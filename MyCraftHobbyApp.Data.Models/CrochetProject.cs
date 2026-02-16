@@ -1,43 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using MyCraftHobbyApp.Data.Models.Interfaces;
-using System.ComponentModel.DataAnnotations;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
-using static MyCraftHobbyApp.GCommon.EntityValidation;
 
 namespace MyCraftHobbyApp.Data.Models
 {
-    public class CrochetProject : ICraftType
+    public class CrochetProject : CraftProject
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        [MaxLength(ProjectNameMaxValue)]
-        public string Name { get; set; } = null!;
-
-        [MaxLength(ProjectDescriptionMaxValue)]
-        public string? Description { get; set; }
-
-        [MaxLength(ProjectImgUrlMaxValue)]
-        public string? ImgUrl { get; set; }
-
         [ForeignKey(nameof(StitchPattern))]
         public int StitchPatternId { get; set; }
-
-        [Required]
         public StitchPattern StitchPattern { get; set; } = null!;
-
-        [ForeignKey(nameof(ProjectType))]
-        public int ProjectTypeId { get; set; }
-
-        [Required]
-        public ProjectType ProjectType { get; set; } = null!;
-
-        [Required]
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; } = null!;
-
-        [Required]
-        public IdentityUser User { get; set; } = null!;
     }
 }

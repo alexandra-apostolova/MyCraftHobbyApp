@@ -3,7 +3,6 @@ using MyCraftHobbyApp.Data;
 using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
-using System.Web.Mvc;
 
 namespace MyCraftHobbyApp.Services.Core
 {
@@ -16,7 +15,8 @@ namespace MyCraftHobbyApp.Services.Core
         }
         public async Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync()
         {
-            ICollection<AllViewModel> allCrochetProjects = await dbContext.CrochetProjects
+            ICollection<AllViewModel> allCrochetProjects = await dbContext.Projects
+                .OfType<CrochetProject>()
                 .Include(c => c.ProjectType)
                 .AsNoTracking()
                 .Select(c => new AllViewModel
@@ -35,7 +35,8 @@ namespace MyCraftHobbyApp.Services.Core
 
         public async Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id)
         {
-            CrochetProject? crochetProject = await dbContext.CrochetProjects
+            CrochetProject? crochetProject = await dbContext.Projects
+                .OfType<CrochetProject>()
                 .Include(c => c.ProjectType)
                 .Include(c => c.StitchPattern)
                 .SingleOrDefaultAsync(c => c.Id == id);
@@ -95,7 +96,7 @@ namespace MyCraftHobbyApp.Services.Core
                 ProjectTypeId = inputModel.ProjectTypeId
             };
 
-            await dbContext.CrochetProjects.AddAsync(projectToAdd);
+            await dbContext.Projects.AddAsync(projectToAdd);
             await dbContext.SaveChangesAsync();
 
             return true;
@@ -135,7 +136,7 @@ namespace MyCraftHobbyApp.Services.Core
                 return false;
             }
 
-            dbContext.CrochetProjects.Remove(crochetProject);
+            dbContext.Projects.Remove(crochetProject);
             await dbContext.SaveChangesAsync();
             return true;
         }
@@ -147,7 +148,8 @@ namespace MyCraftHobbyApp.Services.Core
                 throw new InvalidOperationException("Id can't be zero or negative!");
             }
 
-            CrochetProject? crochetProject = await dbContext.CrochetProjects.SingleOrDefaultAsync(k => k.Id == id);
+            CrochetProject? crochetProject = await dbContext.Projects
+                .OfType<CrochetProject>().SingleOrDefaultAsync(k => k.Id == id);
             if (crochetProject == null)
             {
                 return null;

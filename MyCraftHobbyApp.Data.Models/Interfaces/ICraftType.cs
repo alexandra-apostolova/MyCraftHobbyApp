@@ -9,7 +9,5 @@ namespace MyCraftHobbyApp.Data.Models.Interfaces
         string Name { get; }
         string? ImgUrl { get; }
         ProjectType ProjectType { get; }
-        public string UserId { get; set; }
-        public IdentityUser User { get; set; }
     }
 }

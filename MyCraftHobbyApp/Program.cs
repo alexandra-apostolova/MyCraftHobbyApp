@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyCraftHobbyApp.Data;
+using MyCraftHobbyApp.Data.Models;
 using MyCraftHobbyApp.Services.Core;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 
@@ -19,7 +20,7 @@ namespace MyCraftHobbyApp
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            builder.Services.AddDefaultIdentity<AppUser>(options =>
             {
                 ConfigureIdentity(options, builder.Configuration);
             })

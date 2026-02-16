@@ -2,25 +2,26 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyCraftHobbyApp.Data.Models;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly IUserStore<IdentityUser> userStore;
-        private readonly IUserEmailStore<IdentityUser> emailStore;
+        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
+        private readonly IUserStore<AppUser> userStore;
+        private readonly IUserEmailStore<AppUser> emailStore;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<AppUser> userManager,
+            IUserStore<AppUser> userStore,
+            SignInManager<AppUser> signInManager)
         {
             this.userManager = userManager;
             this.userStore = userStore;
@@ -69,7 +70,7 @@ namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                IdentityUser user = CreateUser();
+                AppUser user = CreateUser();
 
                 await userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
                 await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -96,27 +97,27 @@ namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private AppUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<AppUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(AppUser)}'. " +
+                    $"Ensure that '{nameof(AppUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<AppUser> GetEmailStore()
         {
             if (!userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)userStore;
+            return (IUserEmailStore<AppUser>)userStore;
         }
     }
 }

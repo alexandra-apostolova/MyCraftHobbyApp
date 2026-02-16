@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyCraftHobbyApp.Data.Models\MyCraftHobbyApp.Data.Models.csproj" />
     <ProjectReference Include="..\MyCraftHobbyApp.Data\MyCraftHobbyApp.Data.csproj" />
     <ProjectReference Include="..\MyCraftHobbyApp.Services.Core\MyCraftHobbyApp.Services.Core.csproj" />
     <ProjectReference Include="..\MyCraftHobbyApp.ViewModels\MyCraftHobbyApp.ViewModels.csproj" />

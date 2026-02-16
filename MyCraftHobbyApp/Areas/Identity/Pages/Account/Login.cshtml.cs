@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyCraftHobbyApp.Data.Models;
 
 namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
         private readonly ILogger<LoginModel> logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
-            ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<AppUser> signInManager, 
+            ILogger<LoginModel> logger, UserManager<AppUser> userManager)
         {
             this.signInManager = signInManager;
             this.logger = logger;

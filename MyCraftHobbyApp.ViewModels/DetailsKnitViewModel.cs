@@ -1,8 +1,4 @@
-﻿using MyCraftHobbyApp.Data.Models;
-using MyCraftHobbyApp.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using MyCraftHobbyApp.Data.Models.Enums;
 
 namespace MyCraftHobbyApp.ViewModels
 {

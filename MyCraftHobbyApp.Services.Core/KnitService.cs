@@ -16,7 +16,8 @@ namespace MyCraftHobbyApp.Services.Core
         public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string currentUserId)
         {
             
-            ICollection<AllViewModel> knitProjects = await dbContext.KnitProjects
+            ICollection<AllViewModel> knitProjects = await dbContext.Projects
+                .OfType<KnitProject>()
                 .Include(k => k.ProjectType)
                 .AsNoTracking()
                 .Select(k => new AllViewModel
@@ -24,8 +25,7 @@ namespace MyCraftHobbyApp.Services.Core
                     Id = k.Id,
                     Name = k.Name,
                     ImgUrl = k.ImgUrl,
-                    Difficulty = k.ProjectType.Difficulty,
-                    UserId = k.UserId == currentUserId ? k.UserId : null
+                    Difficulty = k.ProjectType.Difficulty
                 })
                 .OrderBy(k => k.Name)
                 .ThenBy(k => k.Difficulty)
@@ -36,7 +36,8 @@ namespace MyCraftHobbyApp.Services.Core
 
         public async Task<DetailsKnitViewModel> GetDetailsForKnitModelAsync(int id)
         {
-            KnitProject? knitProject = await dbContext.KnitProjects
+            KnitProject? knitProject = await dbContext.Projects
+                .OfType<KnitProject>()
                 .Include(k => k.ProjectType)
                 .SingleOrDefaultAsync(k => k.Id == id);
             if (knitProject == null)
@@ -78,11 +79,10 @@ namespace MyCraftHobbyApp.Services.Core
                 Name = inputModel.Name,
                 Description = inputModel.Description,
                 ImgUrl = inputModel.ImgUrl,
-                ProjectTypeId = inputModel.ProjectTypeId,
-                UserId = currentUserId
+                ProjectTypeId = inputModel.ProjectTypeId
             };
 
-            await dbContext.KnitProjects.AddAsync(projectToAdd);
+            await dbContext.Projects.AddAsync(projectToAdd);
             await dbContext.SaveChangesAsync();
             return true;
         }
@@ -111,7 +111,7 @@ namespace MyCraftHobbyApp.Services.Core
             {
                 return false;
             }
-            dbContext.KnitProjects.Remove(knitProject);
+            dbContext.Projects.Remove(knitProject);
             await dbContext.SaveChangesAsync();
             return true;
         }
@@ -123,7 +123,8 @@ namespace MyCraftHobbyApp.Services.Core
                 throw new InvalidOperationException("Id can't be zero or negative!");
             }
 
-            KnitProject? knitProject = await dbContext.KnitProjects.SingleOrDefaultAsync(k => k.Id == id);
+            KnitProject? knitProject = await dbContext.Projects
+                .OfType<KnitProject>().SingleOrDefaultAsync(k => k.Id == id);
             if (knitProject == null)
             {
                 return null;

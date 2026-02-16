@@ -5,14 +5,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyCraftHobbyApp.Data.Models;
 
 namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly SignInManager<AppUser> signInManager;
 
-        public LogoutModel(SignInManager<IdentityUser> signInManager)
+        public LogoutModel(SignInManager<AppUser> signInManager)
         {
             this.signInManager = signInManager;
         }
