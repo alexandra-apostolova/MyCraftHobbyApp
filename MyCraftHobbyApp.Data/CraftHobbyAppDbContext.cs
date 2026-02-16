@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MyCraftHobbyApp.Data.EntityConfiguration;
 using MyCraftHobbyApp.Data.Models;
 
 namespace MyCraftHobbyApp.Data
@@ -25,12 +26,14 @@ namespace MyCraftHobbyApp.Data
                 .HasValue<KnitProject>("Knit")
                 .HasValue<CrochetProject>("Crochet");
 
-            builder.Entity<UserProject>()
-                .HasKey(up => new { up.UserId, up.CraftProjectId });
+            builder.ApplyConfiguration(new ProjectTypeConfiguration());
+            builder.ApplyConfiguration(new StitchPatternConfiguration());
+            builder.ApplyConfiguration(new KnitProjectConfiguration());
+            builder.ApplyConfiguration(new CrochetProjectConfiguration());
 
             builder.Entity<UserProject>()
-                .Property(up => up.UserId)
-                .HasMaxLength(250);
+                .HasKey(up => new { up.UserId, up.CraftProjectId })
+                .IsClustered(false);
 
             builder.Entity<UserProject>()
                 .HasOne(up => up.User)

@@ -12,8 +12,8 @@ using MyCraftHobbyApp.Data;
 namespace MyCraftHobbyApp.Data.Migrations
 {
     [DbContext(typeof(CraftHobbyAppDbContext))]
-    [Migration("20260216131423_ChangedToAppUser")]
-    partial class ChangedToAppUser
+    [Migration("20260216134957_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,8 +309,7 @@ namespace MyCraftHobbyApp.Data.Migrations
             modelBuilder.Entity("MyCraftHobbyApp.Data.Models.UserProject", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CraftProjectId")
                         .HasColumnType("int");
@@ -325,6 +324,8 @@ namespace MyCraftHobbyApp.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("UserId", "CraftProjectId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("UserId", "CraftProjectId"), false);
 
                     b.HasIndex("CraftProjectId");
 
@@ -417,7 +418,7 @@ namespace MyCraftHobbyApp.Data.Migrations
                     b.HasOne("MyCraftHobbyApp.Data.Models.CraftProject", "CraftProject")
                         .WithMany("UserProjects")
                         .HasForeignKey("CraftProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MyCraftHobbyApp.Data.Models.AppUser", "User")

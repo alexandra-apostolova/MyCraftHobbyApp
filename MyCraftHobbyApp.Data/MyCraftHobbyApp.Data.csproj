@@ -7,6 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20260209134020_InitialCreateDataModels.cs" />
+    <Compile Remove="Migrations\20260209134020_InitialCreateDataModels.Designer.cs" />
+    <Compile Remove="Migrations\20260212104020_AddCollectionProperties.cs" />
+    <Compile Remove="Migrations\20260212104020_AddCollectionProperties.Designer.cs" />
+    <Compile Remove="Migrations\20260212114234_AddedDescription.cs" />
+    <Compile Remove="Migrations\20260212114234_AddedDescription.Designer.cs" />
+    <Compile Remove="Migrations\20260215125318_AddedUserId.cs" />
+    <Compile Remove="Migrations\20260215125318_AddedUserId.Designer.cs" />
+    <Compile Remove="Migrations\20260215130240_MakeUserIdRequired.cs" />
+    <Compile Remove="Migrations\20260215130240_MakeUserIdRequired.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
