@@ -53,11 +53,9 @@
 git clone https://github.com/yourusername/MyCraftHobby.git
 cd MyCraftHobby
 ```
-2. Open the solution
-Open the solution in Visual Studio 2022 (or newer).
+2. Open the solution in Visual Studio 2022 (or newer).
 
-3. Update the connection string
-In appsettings.json, update the connection string to point to your database:
+3. In appsettings.json, update the connection string to point to your database:
 ```
 "ConnectionStrings": {
   "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MyCraftHobbyDb;Trusted_Connection=True;MultipleActiveResultSets=true"
@@ -72,7 +70,7 @@ dotnet ef database update
 ```
 dotnet run
 ```
-Once the application is running, you can navigate to https://localhost:5001 (or the URL shown in your console) to start exploring MyCraftHobby.
+Once the application is running, you can navigate to https://localhost:7028 (or the URL shown in your console) to start exploring MyCraftHobby.
 
 ## Usage
 
@@ -98,7 +96,7 @@ Once the application is running, you can navigate to https://localhost:5001 (or 
 - ASP.NET Core Identity
 - Razor Pages
 - Bootstrap & custom CSS for a cozy and user-friendly interface
-- SQL Server (or LocalDB)
+- SQL Server
 
 ---
 
