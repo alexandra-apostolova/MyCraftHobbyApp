@@ -17,5 +17,6 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model);
         Task<bool> EditExistingCrochetProjectAsync(CrochetProject project, CrochetInputModel model);
         Task<bool> DeleteCrochetProjectAsync(int id);
+        Task<bool> StartProjectAsync(CrochetProject project, string? currentUserId);
     }
 }

@@ -226,7 +226,38 @@ namespace MyCraftHobbyApp.Controllers
                 ModelState.AddModelError(String.Empty, "Something went wrong. Try again later.");
             }
 
-            return Ok("Yes hello!");
+            return Ok("Started!");
         }
+
+        public async Task<IActionResult> FinishProject(int id)
+        {
+            string? currentUserId = GetUserId();
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            KnitProject? projectToFinish = await knitService.GetKnitProjectAsync(id);
+            if (projectToFinish == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                bool result = await knitService.FinishProjectAsync(projectToFinish, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+                ModelState.AddModelError(String.Empty, "Something went wrong. Try again later.");
+            }
+            return Ok("Finished!");
+        }
+
     }
 }

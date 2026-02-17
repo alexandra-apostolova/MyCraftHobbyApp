@@ -33,7 +33,8 @@
                         Delete
                     </a>
 
-                    <a asp-controller="Knit" asp-action="StartProject" asp-route-id="@Model.Id" class="btn btn-welcome btn-start">Start Project</a>
+                    <a asp-controller="Knit" asp-action="StartProject" asp-route-id="@Model.Id" class="btn btn-welcome btn-start">
+                        @(Model.IsStarted && !Model.IsFinished ? "Finish Project" : "Start Project")</a>
                 </div>
             </div>
 

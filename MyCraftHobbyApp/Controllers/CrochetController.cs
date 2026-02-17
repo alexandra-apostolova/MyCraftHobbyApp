@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyCraftHobbyApp.Data.Models;
+using MyCraftHobbyApp.Services.Core;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -202,6 +203,35 @@ namespace MyCraftHobbyApp.Controllers
             }
 
             return RedirectToAction(nameof(All));
+        }
+        public async Task<IActionResult> StartProject(int id)
+        {
+            string? currentUserId = GetUserId();
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            CrochetProject? projectToStart = await crochetService.GetCrochetProjectAsync(id);
+            if (projectToStart == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                bool result = await crochetService.StartProjectAsync(projectToStart, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+                ModelState.AddModelError(String.Empty, "Something went wrong. Try again later.");
+            }
+
+            return Ok("Started!");
         }
     }
 }

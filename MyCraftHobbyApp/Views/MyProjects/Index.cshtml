@@ -34,6 +34,72 @@
 				{
 					<div class="project-strip-wrapper">
 
+						<!-- Text + Image link -->
+						<a asp-controller="@project.CraftName"
+						   asp-action="Details"
+						   asp-route-id="@project.Id"
+						   class="project-strip-link">
+
+							<div class="project-strip">
+
+								<div class="project-strip-text">
+									<h5>@project.Name</h5>
+									<div class="project-meta">
+										<span>@project.CraftName</span> ·
+										<span>@project.Difficulty</span>
+									</div>
+								</div>
+
+								<img src="@project.ImgUrl"
+									 class="project-strip-image"
+									 alt="project image" />
+
+							</div>
+						</a>
+
+						<!-- Buttons below the strip -->
+						<div class="project-strip-bottom">
+							<div class="button-row">
+								<a asp-controller="@project.CraftName"
+								   asp-action="Edit"
+								   asp-route-id="@project.Id"
+								   class="btn btn-edit">
+									Edit
+								</a>
+
+								<a asp-controller="@project.CraftName"
+								   asp-action="Delete"
+								   asp-route-id="@project.Id"
+								   class="btn btn-delete">
+									Delete
+								</a>
+							</div>
+						</div>
+
+					</div>
+				}
+
+			}
+		</div>
+
+		<!-- STARTED -->
+		<div class="projects-column">
+			<h3 class="column-title">Started</h3>
+			@if (!started.Any())
+			{
+				<div class="patchwork-square">
+					<div class="patch-content">
+						<p>No started projects yet</p>
+					</div>
+				</div>
+			}
+			else
+			{
+				@foreach (var project in started)
+				{
+					<div class="project-strip-wrapper">
+
+						<!-- Text + Image link -->
 						<a asp-controller="@project.CraftName"
 						   asp-action="Details"
 						   asp-route-id="@project.Id"
@@ -55,66 +121,18 @@
 							</div>
 						</a>
 
-						<div class="project-buttons">
-							<div class="button-row">
-								<a asp-controller="@project.CraftName"
-								   asp-action="Edit"
-								   asp-route-id="@project.Id"
-								   class="btn btn-edit">
-									Edit
-								</a>
-
-								<a asp-controller="@project.CraftName"
-								   asp-action="Delete"
-								   asp-route-id="@project.Id"
-								   class="btn btn-delete">
-									Delete
-								</a>
-							</div>
+						<!-- Finish button below -->
+						<div class="project-strip-bottom">
+							<a asp-controller="@project.CraftName"
+							   asp-action="FinishProject"
+							   asp-route-id="@project.Id"
+							   class="btn btn-finish">
+								Finish Project
+							</a>
 						</div>
 
 					</div>
 				}
-			}
-		</div>
-
-		<!-- STARTED -->
-		<div class="projects-column">
-			<h3 class="column-title">Started</h3>
-			@if (!started.Any())
-			{
-				<div class="patchwork-square">
-					<div class="patch-content">
-						<p>No started projects yet</p>
-					</div>
-				</div>
-			}
-			else
-			{
-				@foreach (var project in started)
-				{
-					<a asp-controller="@project.CraftName"
-					   asp-action="Details"
-					   asp-route-id="@project.Id"
-					   class="project-strip-link">
-
-						<div class="project-strip">
-
-							<div class="project-strip-text">
-								<h5>@project.Name</h5>
-								<div class="project-meta">
-									<span>@project.CraftName</span> ·
-									<span>@project.Difficulty</span>
-								</div>
-							</div>
-
-							<img src="@project.ImgUrl"
-								 class="project-strip-image"
-								 alt="project image" />
-						</div>
-					</a>
-				}
-
 			}
 		</div>
 
@@ -133,30 +151,34 @@
 			{
 				@foreach (var project in finished)
 				{
-					<a asp-controller="@project.CraftName"
-					   asp-action="Details"
-					   asp-route-id="@project.Id"
-					   class="project-strip-link">
+					<div class="project-strip-wrapper">
 
-						<div class="project-strip">
+						<a asp-controller="@project.CraftName"
+						   asp-action="Details"
+						   asp-route-id="@project.Id"
+						   class="project-strip-link">
 
-							<div class="project-strip-text">
-								<h5>@project.Name</h5>
-								<div class="project-meta">
-									<span>@project.CraftName</span> ·
-									<span>@project.Difficulty</span>
+							<div class="project-strip">
+
+								<div class="project-strip-text">
+									<h5>@project.Name</h5>
+									<div class="project-meta">
+										<span>@project.CraftName</span> ·
+										<span>@project.Difficulty</span>
+									</div>
 								</div>
-							</div>
 
-							<img src="@project.ImgUrl"
-								 class="project-strip-image"
-								 alt="project image" />
-						</div>
-					</a>
+								<img src="@project.ImgUrl"
+									 class="project-strip-image"
+									 alt="project image" />
+							</div>
+						</a>
+
+					</div>
 				}
 			}
-
 		</div>
+
 
 	</div>
 </section>

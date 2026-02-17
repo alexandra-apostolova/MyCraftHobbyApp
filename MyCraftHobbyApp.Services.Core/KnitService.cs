@@ -47,6 +47,13 @@ namespace MyCraftHobbyApp.Services.Core
                 return null;
             }
 
+            //UserProject? userProject = await dbContext.UserProjects
+            //    .SingleOrDefaultAsync(p => p.CraftProjectId == id);
+            //if (userProject == null)
+            //{
+            //    return null;
+            //}
+
             DetailsKnitViewModel viewModel = new DetailsKnitViewModel();
             viewModel.Id = id;
             viewModel.Name = knitProject.Name;
@@ -54,6 +61,8 @@ namespace MyCraftHobbyApp.Services.Core
             viewModel.ImgUrl = knitProject.ImgUrl;
             viewModel.Difficulty = knitProject.ProjectType.Difficulty;
             viewModel.ProjectTypeName = knitProject.ProjectType.Name;
+            //viewModel.IsStarted = userProject.IsStarted;
+            //viewModel.IsFinished = userProject.IsFinished;
 
             return viewModel;
         }
@@ -195,6 +204,20 @@ namespace MyCraftHobbyApp.Services.Core
             return true;
         }
 
+        public async Task<bool> FinishProjectAsync(KnitProject project, string? currentUserId)
+        {
+            UserProject? userProject = await dbContext.UserProjects
+                    .SingleOrDefaultAsync(up => up.CraftProjectId == project.Id && up.UserId == currentUserId);
+
+            if (userProject == null)
+                return false;
+
+            userProject.IsStarted = false;
+            userProject.IsFinished = true;
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }
 

@@ -47,6 +47,14 @@ namespace MyCraftHobbyApp.Services.Core
                 return null;
             }
 
+            //UserProject? userProject = await dbContext.UserProjects
+            //    .SingleOrDefaultAsync(p => p.CraftProjectId == id);
+
+            //if (userProject == null)
+            //{
+            //    return null;
+            //}
+
             DetailsCrochetViewModel viewModel = new DetailsCrochetViewModel();
             viewModel.Id = id;
             viewModel.Name = crochetProject.Name;
@@ -55,6 +63,8 @@ namespace MyCraftHobbyApp.Services.Core
             viewModel.Difficulty = crochetProject.ProjectType.Difficulty;
             viewModel.StitchPattern = crochetProject.StitchPattern.Name;
             viewModel.ProjectTypeName = crochetProject.ProjectType.Name;
+            //viewModel.IsStarted = userProject.IsStarted;
+            //viewModel.IsFinished = userProject.IsFinished;
 
             return viewModel;
         }
@@ -178,6 +188,42 @@ namespace MyCraftHobbyApp.Services.Core
         public async Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model)
         {
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
+        }
+
+        public async Task<bool> StartProjectAsync(CrochetProject projectToStart, string? currentUserId)
+        {
+            if (projectToStart == null)
+                return false;
+
+            if (string.IsNullOrEmpty(currentUserId))
+                return false;
+
+            UserProject? userProject = await dbContext.UserProjects
+                .SingleOrDefaultAsync(up => up.CraftProjectId == projectToStart.Id
+                                           && up.UserId == currentUserId);
+
+            if (userProject != null)
+            {
+                userProject.IsStarted = true;
+                userProject.IsFinished = false;
+                dbContext.UserProjects.Update(userProject);
+            }
+            else
+            {
+                userProject = new UserProject
+                {
+                    CraftProjectId = projectToStart.Id,
+                    UserId = currentUserId,
+                    IsCreator = false,
+                    IsStarted = true,
+                    IsFinished = false
+                };
+
+                await dbContext.UserProjects.AddAsync(userProject);
+            }
+
+            await dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

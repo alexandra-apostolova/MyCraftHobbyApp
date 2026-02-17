@@ -661,27 +661,28 @@ body {
 /* ===== PROJECT STRIP ===== */
 
 .project-strip-wrapper {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem; /* space between strips */
 }
 
 .project-strip-link {
     text-decoration: none;
 }
 
+/* Strip content (text + image) */
 .project-strip {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    padding: 1rem 1.2rem;
     display: flex;
+    align-items: center; /* text left, image right */
     justify-content: space-between;
-    align-items: center;
-    transition: 0.25s ease;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 16px;
+    background-color: var(--card-bg);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
     .project-strip:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 22px rgba(0,0,0,0.08);
     }
 
 .project-strip-text h5 {
@@ -697,7 +698,6 @@ body {
     margin-top: 0.3rem;
 }
 
-/* Circular image */
 .project-strip-image {
     width: 55px;
     height: 55px;
@@ -706,4 +706,24 @@ body {
     border: 3px solid var(--bg-base);
 }
 
+/* Finish button styling */
+.project-strip-bottom {
+    margin-top: 0.5rem; /* space above button */
+}
+
+.btn-finish {
+    width: 100%;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    font-weight: 600;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+    .btn-finish:hover {
+        background-color: #388e3c;
+    }
 

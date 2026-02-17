@@ -15,5 +15,6 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<bool> EditExistingKnitProjectAsync(KnitProject project, KnitInputModel model);
         Task<bool> DeleteKnitProjectAsync(int id);
         Task<bool> StartProjectAsync(KnitProject project, string? currentUserId);
+        Task<bool> FinishProjectAsync(KnitProject project, string? currentUserId);
     }
 }
