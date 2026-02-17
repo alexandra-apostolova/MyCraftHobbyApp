@@ -25,7 +25,9 @@ namespace MyCraftHobbyApp.Services.Core
                     Id = k.Id,
                     Name = k.Name,
                     ImgUrl = k.ImgUrl,
-                    Difficulty = k.ProjectType.Difficulty
+                    Difficulty = k.ProjectType.Difficulty,
+                    IsCreator = k.UserProjects
+                        .Any(up => up.UserId == currentUserId && up.IsCreator)
                 })
                 .OrderBy(k => k.Name)
                 .ThenBy(k => k.Difficulty)
@@ -84,6 +86,20 @@ namespace MyCraftHobbyApp.Services.Core
 
             await dbContext.Projects.AddAsync(projectToAdd);
             await dbContext.SaveChangesAsync();
+
+            if (!String.IsNullOrEmpty(currentUserId))
+            {
+                UserProject userProject = new UserProject
+                {
+                    UserId = currentUserId,
+                    CraftProjectId = projectToAdd.Id,
+                    IsCreator = true
+                };
+
+                await dbContext.UserProjects.AddAsync(userProject);
+                await dbContext.SaveChangesAsync();
+            }
+
             return true;
         }
 
@@ -111,7 +127,10 @@ namespace MyCraftHobbyApp.Services.Core
             {
                 return false;
             }
+
+            dbContext.UserProjects.RemoveRange(knitProject.UserProjects);
             dbContext.Projects.Remove(knitProject);
+
             await dbContext.SaveChangesAsync();
             return true;
         }
@@ -124,7 +143,9 @@ namespace MyCraftHobbyApp.Services.Core
             }
 
             KnitProject? knitProject = await dbContext.Projects
+                .Include(k => k.UserProjects)
                 .OfType<KnitProject>().SingleOrDefaultAsync(k => k.Id == id);
+
             if (knitProject == null)
             {
                 return null;

@@ -1,9 +1,11 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using MyCraftHobbyApp.Data.Models
 @model ICollection<AllViewModel>
+
 
 @{
 	ViewData["Title"] = "All Knit Projects";
-	string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <section class="projects-page">
@@ -34,7 +36,7 @@
 						<a asp-controller="Knit" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
 							View Details
 						</a>
-					@if (currentUserId == project.UserId)
+					@if (project.IsCreator)
 						{
 							<div class="button-row">
 								<a asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
@@ -45,7 +47,7 @@
 								</a>
 							</div>
 						}
-						else
+						else if (User.Identity?.IsAuthenticated == true)
 						{
 							<div class="button-row">
 								<a asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit disabled">

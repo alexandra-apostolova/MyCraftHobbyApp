@@ -19,8 +19,9 @@ namespace MyCraftHobbyApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All()
         {
+            string? currentUserId = GetUserId();
             ICollection<AllViewModel> viewModel 
-                = await crochetService.GetAllCrochetProjectsAsync();
+                = await crochetService.GetAllCrochetProjectsAsync(currentUserId);
 
             return View(viewModel);
         }
@@ -60,6 +61,7 @@ namespace MyCraftHobbyApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CrochetInputModel inputModel)
         {
+            string? currentUserId = GetUserId();
             if (!ModelState.IsValid)
             {
                 return View(inputModel);
@@ -67,7 +69,7 @@ namespace MyCraftHobbyApp.Controllers
 
             try
             {
-                bool result = await crochetService.AddNewCrochetProjectAsync(inputModel);
+                bool result = await crochetService.AddNewCrochetProjectAsync(inputModel, currentUserId);
                 if (!result)
                 {
                     return BadRequest();

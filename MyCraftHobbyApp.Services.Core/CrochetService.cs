@@ -13,7 +13,7 @@ namespace MyCraftHobbyApp.Services.Core
         {
             this.dbContext = dbContext;
         }
-        public async Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync()
+        public async Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync(string? currentUserId)
         {
             ICollection<AllViewModel> allCrochetProjects = await dbContext.Projects
                 .OfType<CrochetProject>()
@@ -25,6 +25,8 @@ namespace MyCraftHobbyApp.Services.Core
                     Name = c.Name,
                     ImgUrl = c.ImgUrl,
                     Difficulty = c.ProjectType.Difficulty,
+                    IsCreator = c.UserProjects
+                         .Any(up => up.UserId == currentUserId && up.IsCreator)
                 })
                 .OrderBy(c => c.Name)
                 .ThenBy(c => c.Difficulty)
@@ -77,7 +79,7 @@ namespace MyCraftHobbyApp.Services.Core
             return allStitchPatterns;
         }
 
-        public async Task<bool> AddNewCrochetProjectAsync(CrochetInputModel inputModel)
+        public async Task<bool> AddNewCrochetProjectAsync(CrochetInputModel inputModel, string? currentUserId)
         {
             bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
             bool isValidStitchPattern = await CheckIsValidStitchIdAsync(inputModel);
@@ -98,6 +100,19 @@ namespace MyCraftHobbyApp.Services.Core
 
             await dbContext.Projects.AddAsync(projectToAdd);
             await dbContext.SaveChangesAsync();
+
+            if (!String.IsNullOrEmpty(currentUserId))
+            {
+                UserProject userProject = new UserProject
+                {
+                    UserId = currentUserId,
+                    CraftProjectId = projectToAdd.Id,
+                    IsCreator = true
+                };
+
+                await dbContext.UserProjects.AddAsync(userProject);
+                await dbContext.SaveChangesAsync();
+            }
 
             return true;
         }
@@ -136,6 +151,7 @@ namespace MyCraftHobbyApp.Services.Core
                 return false;
             }
 
+            dbContext.UserProjects.RemoveRange(crochetProject.UserProjects);
             dbContext.Projects.Remove(crochetProject);
             await dbContext.SaveChangesAsync();
             return true;
@@ -149,6 +165,7 @@ namespace MyCraftHobbyApp.Services.Core
             }
 
             CrochetProject? crochetProject = await dbContext.Projects
+                .Include(c => c.UserProjects)
                 .OfType<CrochetProject>().SingleOrDefaultAsync(k => k.Id == id);
             if (crochetProject == null)
             {

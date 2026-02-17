@@ -27,5 +27,8 @@ namespace MyCraftHobbyApp.ViewModels
 
         public IEnumerable<ProjectType>? ProjectTypes { get; set; }
 
+        [Required]
+        public int UserId { get; set; }
+
     }
 }

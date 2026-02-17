@@ -6,12 +6,12 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
 {
     public interface ICrochetService
     {
-        Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync();
+        Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync(string? currentUserId);
 
         Task<DetailsCrochetViewModel> GetDetailsForCrochetModelAsync(int id);
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync();
-        Task<bool> AddNewCrochetProjectAsync(CrochetInputModel inputModel);
+        Task<bool> AddNewCrochetProjectAsync(CrochetInputModel inputModel, string? currentUserId);
         Task<CrochetProject> GetCrochetProjectAsync(int id);
         Task<bool> CheckIsValidProjectIdAsync(CrochetInputModel model);
         Task<bool> CheckIsValidStitchIdAsync(CrochetInputModel model);
