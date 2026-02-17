@@ -15,7 +15,7 @@ namespace MyCraftHobbyApp.Services.Core
         }
         public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string currentUserId)
         {
-            
+
             ICollection<AllViewModel> knitProjects = await dbContext.Projects
                 .OfType<KnitProject>()
                 .Include(k => k.ProjectType)
@@ -158,5 +158,43 @@ namespace MyCraftHobbyApp.Services.Core
         {
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
         }
+
+        public async Task<bool> StartProjectAsync(KnitProject projectToStart, string? currentUserId)
+        {
+            if (projectToStart == null)
+                return false;
+
+            if (string.IsNullOrEmpty(currentUserId))
+                return false;
+
+            UserProject? userProject = await dbContext.UserProjects
+                .SingleOrDefaultAsync(up => up.CraftProjectId == projectToStart.Id
+                                           && up.UserId == currentUserId);
+
+            if (userProject != null)
+            {
+                userProject.IsStarted = true;
+                userProject.IsFinished = false;
+                dbContext.UserProjects.Update(userProject);
+            }
+            else
+            {
+                userProject = new UserProject
+                {
+                    CraftProjectId = projectToStart.Id,
+                    UserId = currentUserId,
+                    IsCreator = false,
+                    IsStarted = true,
+                    IsFinished = false
+                };
+
+                await dbContext.UserProjects.AddAsync(userProject);
+            }
+
+            await dbContext.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
+

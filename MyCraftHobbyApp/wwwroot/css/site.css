@@ -639,3 +639,71 @@ body {
     margin: 0;
 }
 
+/* ===== THREE COLUMN LAYOUT ===== */
+
+.projects-columns {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.projects-column {
+    flex: 1;
+    min-width: 280px;
+}
+
+.column-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-soft);
+}
+
+/* ===== PROJECT STRIP ===== */
+
+.project-strip-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.project-strip-link {
+    text-decoration: none;
+}
+
+.project-strip {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.25s ease;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+}
+
+    .project-strip:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    }
+
+.project-strip-text h5 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.project-meta {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    margin-top: 0.3rem;
+}
+
+/* Circular image */
+.project-strip-image {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--bg-base);
+}
+
+

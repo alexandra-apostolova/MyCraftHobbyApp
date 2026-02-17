@@ -17,7 +17,7 @@ namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
         private readonly SignInManager<AppUser> signInManager;
         private readonly ILogger<LoginModel> logger;
 
-        public LoginModel(SignInManager<AppUser> signInManager, 
+        public LoginModel(SignInManager<AppUser> signInManager,
             ILogger<LoginModel> logger, UserManager<AppUser> userManager)
         {
             this.signInManager = signInManager;
@@ -76,7 +76,16 @@ namespace MyCraftHobbyApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                AppUser user = await userManager.FindByEmailAsync(Input.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
+                var result = await signInManager.PasswordSignInAsync(
+                    user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {

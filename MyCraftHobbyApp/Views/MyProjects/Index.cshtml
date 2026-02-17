@@ -1,1 +1,162 @@
-﻿
+﻿@model IEnumerable<AllUserProjectsViewModel>
+
+@{
+	ViewData["Title"] = "My Projects";
+
+	var created = Model.Where(p => p.IsCreator);
+	var started = Model.Where(p => p.IsStarted && !p.IsFinished);
+	var finished = Model.Where(p => p.IsFinished);
+}
+
+<section class="projects-page">
+
+	<div class="projects-header">
+		<h1 class="project-details-title">My Projects</h1>
+	</div>
+
+	<div class="projects-columns">
+
+		<!-- CREATED -->
+		<div class="projects-column">
+			<h3 class="column-title">Created</h3>
+
+			@if (!created.Any())
+			{
+				<div class="patchwork-square">
+					<div class="patch-content">
+						<p>No created projects yet</p>
+					</div>
+				</div>
+			}
+			else
+			{
+				@foreach (var project in created)
+				{
+					<div class="project-strip-wrapper">
+
+						<a asp-controller="@project.CraftName"
+						   asp-action="Details"
+						   asp-route-id="@project.Id"
+						   class="project-strip-link">
+
+							<div class="project-strip">
+
+								<div class="project-strip-text">
+									<h5>@project.Name</h5>
+									<div class="project-meta">
+										<span>@project.CraftName</span> ·
+										<span>@project.Difficulty</span>
+									</div>
+								</div>
+
+								<img src="@project.ImgUrl"
+									 class="project-strip-image"
+									 alt="project image" />
+							</div>
+						</a>
+
+						<div class="project-buttons">
+							<div class="button-row">
+								<a asp-controller="@project.CraftName"
+								   asp-action="Edit"
+								   asp-route-id="@project.Id"
+								   class="btn btn-edit">
+									Edit
+								</a>
+
+								<a asp-controller="@project.CraftName"
+								   asp-action="Delete"
+								   asp-route-id="@project.Id"
+								   class="btn btn-delete">
+									Delete
+								</a>
+							</div>
+						</div>
+
+					</div>
+				}
+			}
+		</div>
+
+		<!-- STARTED -->
+		<div class="projects-column">
+			<h3 class="column-title">Started</h3>
+			@if (!started.Any())
+			{
+				<div class="patchwork-square">
+					<div class="patch-content">
+						<p>No started projects yet</p>
+					</div>
+				</div>
+			}
+			else
+			{
+				@foreach (var project in started)
+				{
+					<a asp-controller="@project.CraftName"
+					   asp-action="Details"
+					   asp-route-id="@project.Id"
+					   class="project-strip-link">
+
+						<div class="project-strip">
+
+							<div class="project-strip-text">
+								<h5>@project.Name</h5>
+								<div class="project-meta">
+									<span>@project.CraftName</span> ·
+									<span>@project.Difficulty</span>
+								</div>
+							</div>
+
+							<img src="@project.ImgUrl"
+								 class="project-strip-image"
+								 alt="project image" />
+						</div>
+					</a>
+				}
+
+			}
+		</div>
+
+		<!-- FINISHED -->
+		<div class="projects-column">
+			<h3 class="column-title">Finished</h3>
+			@if (!finished.Any())
+			{
+				<div class="patchwork-square">
+					<div class="patch-content">
+						<p>No finished projects yet</p>
+					</div>
+				</div>
+			}
+			else
+			{
+				@foreach (var project in finished)
+				{
+					<a asp-controller="@project.CraftName"
+					   asp-action="Details"
+					   asp-route-id="@project.Id"
+					   class="project-strip-link">
+
+						<div class="project-strip">
+
+							<div class="project-strip-text">
+								<h5>@project.Name</h5>
+								<div class="project-meta">
+									<span>@project.CraftName</span> ·
+									<span>@project.Difficulty</span>
+								</div>
+							</div>
+
+							<img src="@project.ImgUrl"
+								 class="project-strip-image"
+								 alt="project image" />
+						</div>
+					</a>
+				}
+			}
+
+		</div>
+
+	</div>
+</section>

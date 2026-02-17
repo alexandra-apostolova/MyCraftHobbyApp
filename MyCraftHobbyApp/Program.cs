@@ -30,6 +30,7 @@ namespace MyCraftHobbyApp
 
             builder.Services.AddScoped<IKnitService, KnitService>();
             builder.Services.AddScoped<ICrochetService, CrochetService>();
+            builder.Services.AddScoped<IMyProjectsService, MyProjectsService>();
 
             var app = builder.Build();
 
