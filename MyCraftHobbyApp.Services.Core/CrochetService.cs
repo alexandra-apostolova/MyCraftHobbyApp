@@ -25,6 +25,7 @@ namespace MyCraftHobbyApp.Services.Core
                     Name = c.Name,
                     ImgUrl = c.ImgUrl,
                     Difficulty = c.ProjectType.Difficulty,
+                    CraftType = c.GetType().Name,
                     IsCreator = c.UserProjects
                          .Any(up => up.UserId == currentUserId && up.IsCreator)
                 })
