@@ -5,11 +5,11 @@
 	if (Model is CrochetInputModel)
 	{
 		isKnitProject = false;
-		ViewData["Title"] = "Add Crochet Project";
+		ViewData["Title"] = "Edit Crochet Project";
 	}
 	else
 	{
-		ViewData["Title"] = "Add Knit Project";
+		ViewData["Title"] = "Edit Knit Project";
 	}
 }
 
@@ -68,7 +68,7 @@
 
 			<button type="submit" class="btn-submit">Save Changes</button>
 
-			<a asp-controller="Craft" asp-action="@(isKnitProject ? "KnitAll" : "CrochetAll")" asp-route-id="@Model.Id" class="btn btn-cancel">
+			<a href="@ViewData["ReturnUrl"]" class="btn btn-cancel">
 				Cancel
 			</a>
 

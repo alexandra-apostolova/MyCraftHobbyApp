@@ -57,6 +57,7 @@ namespace MyCraftHobbyApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateKnit()
         {
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("KnitAll");
             IEnumerable<ProjectType> allProjectTypes = await craftService.GetAllProjectTypesAsync();
 
             InputModel inputModel = new KnitInputModel()
@@ -70,6 +71,7 @@ namespace MyCraftHobbyApp.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateCrochet()
         {
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("CrochetAll");
             IEnumerable<ProjectType> projectTypes = await craftService.GetAllProjectTypesAsync();
             IEnumerable<StitchPattern> stitchPatterns = await craftService.GetAllStitchPatternAsync();
 
@@ -144,7 +146,7 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
-
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home");
             CraftProject craftProject = await craftService.GetProjectAsync(id);
             if (craftProject == null)
             {
@@ -194,6 +196,7 @@ namespace MyCraftHobbyApp.Controllers
             }
             if (!ModelState.IsValid)
             {
+                ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
                 return View(inputModel);
             }
 
@@ -219,7 +222,7 @@ namespace MyCraftHobbyApp.Controllers
                 ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
             }
 
-            return RedirectToAction(nameof(Details), new {id});
+            return RedirectToAction(Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home"));
         }
 
         [HttpGet]
@@ -229,6 +232,8 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
+
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home");
 
             CraftProject projectToDelete = await craftService.GetProjectAsync(id);
             if (projectToDelete == null)
@@ -253,6 +258,8 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
+
             try
             {
                 bool result = await craftService.DeleteProjectAsync(id);
@@ -269,7 +276,7 @@ namespace MyCraftHobbyApp.Controllers
             }
            
 
-            return View("All");
+            return RedirectToRoute(Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home"));
         }
 
         //public async Task<IActionResult> StartProject(int id)

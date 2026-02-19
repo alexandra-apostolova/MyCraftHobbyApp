@@ -54,7 +54,7 @@
 
 			<button type="submit" class="btn-submit">Add Project</button>
 
-			<a asp-controller="Craft" asp-action="CrochetAll" asp-route-id="@Model.Id" class="btn btn-cancel">
+			<a href="@ViewData["ReturnUrl"]" class="btn btn-cancel">
 				Cancel
 			</a>
 		</form>
