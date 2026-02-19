@@ -1,18 +1,19 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
 @using MyCraftHobbyApp.Data.Models
+@using MyCraftHobbyApp.GCommon.Enums
 @model ICollection<AllViewModel>
 
-
 @{
-	ViewData["Title"] = "All Knit Projects";
+	bool isKnitProject = Model.Any(p => p.CraftType == CraftType.Knit);
+	ViewData["Title"] = "All " + (isKnitProject ? "Knit" : "Crochet") + " Projects";
 }
 
 <section class="projects-page">
 	<div class="container">
 		<div class="projects-header">
-			<h1 class="projects-title">All Knit Projects</h1>
-			<a asp-controller="Knit" asp-action="Create" class="craft-button">
+			<h1 class="projects-title">@ViewData["Title"]</h1>
+			<a asp-controller="Craft" asp-action="Create" class="craft-button">
 				+ Add New Project
 			</a>
 		</div>
@@ -22,27 +23,39 @@
 			{
 				<div class="craft-card">
 					<div class="craft-image-wrapper">
-						<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
-										? "~/images/istockphoto-1499593982-612x612.jpg"
-										: project.ImgUrl)"
-						 alt="@project.Name"
-						 class="craft-image" />
+						@if (isKnitProject)
+						{
+							<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+														  ? "~/images/istockphoto-1499593982-612x612.jpg"
+														  : project.ImgUrl)"
+							alt="@project.Name"
+							class="craft-image" />
+						}
+						else
+						{
+							<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+															? "~/images/istockphoto-1311419248-612x612.jpg"
+															: project.ImgUrl)"
+							alt="@project.Name"
+							class="craft-image" />
+						}
+
 				</div>
 
 					<h3 class="project-title">@project.Name</h3>
 					<p class="project-difficulty">@project.Difficulty</p>
 
 					<div class="project-buttons">
-						<a asp-controller="Knit" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
+						<a asp-controller="Craft" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
 							View Details
 						</a>
 					@if (project.IsCreator)
 						{
 							<div class="button-row">
-								<a asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
+								<a asp-controller="Craft" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
 									Edit
 								</a>
-								<a asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger">
+								<a asp-controller="Craft" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger">
 									Delete
 								</a>
 							</div>
@@ -50,10 +63,10 @@
 						else if (User.Identity?.IsAuthenticated == true)
 						{
 							<div class="button-row">
-								<a asp-controller="Knit" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit disabled">
+								<a asp-controller="Craft" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit disabled">
 									Edit
 								</a>
-								<a asp-controller="Knit" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger disabled">
+								<a asp-controller="Craft" asp-action="Delete" asp-route-id="@project.Id" class="btn btn-delete btn-danger disabled">
 									Delete
 								</a>
 							</div>

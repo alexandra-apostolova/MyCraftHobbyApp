@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCraftHobbyApp.ViewModels
 {
-    public class CrochetInputModel : KnitInputModel
+    public class CrochetInputModel : InputModel
     {
         [Required]
         public int StitchPatternId { get; set; }

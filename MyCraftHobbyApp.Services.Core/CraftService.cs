@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCraftHobbyApp.Data;
 using MyCraftHobbyApp.Data.Models;
+using MyCraftHobbyApp.GCommon.Enums;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -12,6 +13,51 @@ namespace MyCraftHobbyApp.Services.Core
         public CraftService(CraftHobbyAppDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+        public async Task<ICollection<AllViewModel>> GetAllCrochetProjectsAsync(string? currentUserId)
+        {
+            ICollection<AllViewModel> allCrochetProjects = await dbContext.Projects
+                .OfType<CrochetProject>()
+                .Include(c => c.ProjectType)
+                .AsNoTracking()
+                .Select(c => new AllViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ImgUrl = c.ImgUrl,
+                    Difficulty = c.ProjectType.Difficulty,
+                    CraftType = CraftType.Crochet,
+                    IsCreator = c.UserProjects
+                         .Any(up => up.UserId == currentUserId && up.IsCreator)
+                })
+                .OrderBy(c => c.Name)
+                .ThenBy(c => c.Difficulty)
+                .ToListAsync();
+
+            return allCrochetProjects;
+        }
+        public async Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string? currentUserId)
+        {
+
+            ICollection<AllViewModel> knitProjects = await dbContext.Projects
+                .OfType<KnitProject>()
+                .Include(k => k.ProjectType)
+                .AsNoTracking()
+                .Select(k => new AllViewModel
+                {
+                    Id = k.Id,
+                    Name = k.Name,
+                    ImgUrl = k.ImgUrl,
+                    Difficulty = k.ProjectType.Difficulty,
+                    CraftType = CraftType.Knit,
+                    IsCreator = k.UserProjects
+                        .Any(up => up.UserId == currentUserId && up.IsCreator)
+                })
+                .OrderBy(k => k.Name)
+                .ThenBy(k => k.Difficulty)
+                .ToListAsync();
+
+            return knitProjects;
         }
 
         public async Task<DetailsViewModel> GetDetailsForModelAsync(int id)
@@ -61,8 +107,17 @@ namespace MyCraftHobbyApp.Services.Core
 
             return allProjectTypes;
         }
+        public async Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync()
+        {
+            IEnumerable<StitchPattern> allStitchPatterns = await dbContext
+                .Patterns
+                .AsNoTracking()
+                .ToListAsync();
 
-        public async Task<bool> AddNewKnitProjectAsync(KnitInputModel inputModel, string currentUserId)
+            return allStitchPatterns;
+        }
+
+        public async Task<bool> AddNewProjectAsync(InputModel inputModel, string currentUserId)
         {
             bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
             if (!isValidProjectType)
@@ -70,13 +125,28 @@ namespace MyCraftHobbyApp.Services.Core
                 return false;
             }
 
-            KnitProject projectToAdd = new KnitProject
+            CraftProject projectToAdd;
+            if (inputModel is CrochetInputModel crochetInput)
             {
-                Name = inputModel.Name,
-                Description = inputModel.Description,
-                ImgUrl = inputModel.ImgUrl,
-                ProjectTypeId = inputModel.ProjectTypeId
-            };
+                projectToAdd = new CrochetProject
+                {
+                    Name = crochetInput.Name,
+                    Description = crochetInput.Description,
+                    ImgUrl = crochetInput.ImgUrl,
+                    StitchPatternId = crochetInput.StitchPatternId,
+                    ProjectTypeId = crochetInput.ProjectTypeId
+                };
+            }
+            else
+            {
+                projectToAdd = new KnitProject
+                {
+                    Name = inputModel.Name,
+                    Description = inputModel.Description,
+                    ImgUrl = inputModel.ImgUrl,
+                    ProjectTypeId = inputModel.ProjectTypeId
+                };
+            }
 
             await dbContext.Projects.AddAsync(projectToAdd);
             await dbContext.SaveChangesAsync();
@@ -97,60 +167,87 @@ namespace MyCraftHobbyApp.Services.Core
             return true;
         }
 
-        public async Task<bool> EditExistingKnitProjectAsync(KnitProject knitProject, KnitInputModel inputModel)
+        public async Task<bool> EditExistingProjectAsync(CraftProject craftProject, InputModel inputModel)
         {
             bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
+            
             if (!isValidProjectType)
             {
                 return false;
             }
 
-            knitProject.Name = inputModel.Name;
-            knitProject.Description = inputModel.Description;
-            knitProject.ImgUrl = inputModel.ImgUrl;
-            knitProject.ProjectTypeId = inputModel.ProjectTypeId;
+            if (inputModel is CrochetInputModel crochet &&
+                craftProject is CrochetProject crochetProject)
+            {
+                bool isValidStitchPattern = await CheckIsValidStitchIdAsync(inputModel);
+                if (!isValidStitchPattern)
+                {
+                    return false;
+                }
+                crochetProject.Name = crochet.Name;
+                crochetProject.Description = crochet.Description;
+                crochetProject.ImgUrl = crochet.ImgUrl;
+                crochetProject.StitchPatternId = crochet.StitchPatternId;
+                crochetProject.ProjectTypeId = crochet.ProjectTypeId;
+            }
+            else
+            {
+                craftProject.Name = inputModel.Name;
+                craftProject.Description = inputModel.Description;
+                craftProject.ImgUrl = inputModel.ImgUrl;
+                craftProject.ProjectTypeId = inputModel.ProjectTypeId;
+            }
+
 
             await dbContext.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> DeleteKnitProjectAsync(int id)
+        public async Task<bool> DeleteProjectAsync(int id)
         {
-            KnitProject? knitProject = await GetKnitProjectAsync(id);
-            if (knitProject == null)
+            CraftProject? project = await GetProjectAsync(id);
+            if (project == null)
             {
                 return false;
             }
 
-            dbContext.UserProjects.RemoveRange(knitProject.UserProjects);
-            dbContext.Projects.Remove(knitProject);
+            dbContext.UserProjects.RemoveRange(project.UserProjects);
+            dbContext.Projects.Remove(project);
 
             await dbContext.SaveChangesAsync();
             return true;
         }
 
-        public async Task<KnitProject> GetKnitProjectAsync(int id)
+        public async Task<CraftProject> GetProjectAsync(int id)
         {
             if (id <= 0)
             {
                 throw new InvalidOperationException("Id can't be zero or negative!");
             }
 
-            KnitProject? knitProject = await dbContext.Projects
-                .Include(k => k.UserProjects)
-                .OfType<KnitProject>().SingleOrDefaultAsync(k => k.Id == id);
+            CraftProject? craftProject = await dbContext.Projects
+                .Include(c => c.UserProjects)
+                .Where(c => c.Id == id).SingleOrDefaultAsync(k => k.Id == id);
 
-            if (knitProject == null)
+            if (craftProject == null)
             {
                 return null;
             }
 
-            return knitProject;
+            return craftProject;
         }
 
-        public async Task<bool> CheckIsValidProjectIdAsync(KnitInputModel model)
+        public async Task<bool> CheckIsValidProjectIdAsync(InputModel model)
         {
             return await dbContext.Types.AnyAsync(t => t.Id == model.ProjectTypeId);
+        }
+        public async Task<bool> CheckIsValidStitchIdAsync(InputModel model)
+        {
+            if (model is CrochetInputModel crochet)
+            {
+                return await dbContext.Patterns.AnyAsync(p => p.Id == crochet.StitchPatternId);
+            }
+            return false;
         }
 
         public async Task<bool> StartProjectAsync(KnitProject projectToStart, string? currentUserId)

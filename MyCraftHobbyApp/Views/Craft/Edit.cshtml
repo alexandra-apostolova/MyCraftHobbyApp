@@ -1,20 +1,13 @@
-﻿@model KnitInputModel
+﻿@model InputModel
 
 @{
-    ViewData["Title"] = "Edit Knit Project";
-    IEnumerable<SelectListItem> allProjectTypes = Model.ProjectTypes
-        .Select(p => new SelectListItem()
-        {
-            Text = p.Name,
-            Value = p.Id.ToString()
-        })
-        .ToList();
+    ViewData["Title"] = "Edit " + @Model.CraftName + " Project";
 }
 
 
 <div class="form-page">
     <div class="form-card">
-        <h2 class="form-title">Edit Knit Project</h2>
+        <h2 class="form-title">@ViewData["Title"]</h2>
 
         <form asp-action="Edit" method="post">
 
@@ -41,11 +34,20 @@
                        placeholder="https://example.com/image.jpg" />
                 <span asp-validation-for="ImgUrl" class="validation-error"></span>
             </div>
+            @if (Model is CrochetInputModel crochet)
+            {
+                <div class="form-group">
+                    <label asp-for="@crochet.StitchPatternId"></label>
+                    <select asp-for="@crochet.StitchPatternId"
+                            asp-items="@(new SelectList(crochet.StitchPatterns, "Id", "Name"))">
+                    </select>
+                </div>
+            }
 
             <div class="form-group">
                 <label asp-for="ProjectTypeId">Project Type</label>
                 <select asp-for="ProjectTypeId"
-                        asp-items="allProjectTypes"
+                        asp-items="@(new SelectList(Model.ProjectTypes, "Id", "Name"))"
                         class="form-select">
                     <option value="">-- Select Project Type --</option>
                 </select>
@@ -53,7 +55,7 @@
             </div>
 
             <button type="submit" class="btn-submit">Save Changes</button>
-            <a asp-controller="Knit" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
+            <a asp-controller="@Model.CraftName" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
                 Cancel
             </a>
         </form>
