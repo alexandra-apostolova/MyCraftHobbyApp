@@ -1,5 +1,6 @@
 ﻿
 using MyCraftHobbyApp.Data.Models.Enums;
+using MyCraftHobbyApp.GCommon.Enums;
 
 namespace MyCraftHobbyApp.ViewModels
 {
@@ -8,9 +9,9 @@ namespace MyCraftHobbyApp.ViewModels
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string? ImgUrl { get; set; }
-        public string CraftType { get; set; } = null!;
+        public CraftType CraftType { get; set; }
         public string CraftName =>
-            CraftType == "KnitProject" ? "Knit" : "Crochet";
+            CraftType.ToString();
 
         public Difficulty Difficulty { get; set; }
 

@@ -13,7 +13,7 @@
 	<div class="container">
 		<div class="projects-header">
 			<h1 class="projects-title">@ViewData["Title"]</h1>
-			<a asp-controller="Craft" asp-action="Create" class="craft-button">
+			<a asp-controller="Craft" asp-action="@(isKnitProject ? "CreateKnit" : "CreateCrochet")" class="craft-button">
 				+ Add New Project
 			</a>
 		</div>

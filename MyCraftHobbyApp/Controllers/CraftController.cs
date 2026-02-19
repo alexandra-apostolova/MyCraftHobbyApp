@@ -54,6 +54,88 @@ namespace MyCraftHobbyApp.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CreateKnit()
+        {
+            IEnumerable<ProjectType> allProjectTypes = await craftService.GetAllProjectTypesAsync();
+
+            InputModel inputModel = new KnitInputModel()
+            {
+                ProjectTypes = allProjectTypes,
+            };
+
+            return View("CreateKnit", inputModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateCrochet()
+        {
+            IEnumerable<ProjectType> projectTypes = await craftService.GetAllProjectTypesAsync();
+            IEnumerable<StitchPattern> stitchPatterns = await craftService.GetAllStitchPatternAsync();
+
+            InputModel inputModel = new CrochetInputModel
+            {
+                StitchPatterns = stitchPatterns,
+                ProjectTypes = projectTypes
+            };
+
+            return View("CreateCrochet", inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateKnit(KnitInputModel inputModel)
+        {
+            string? currentUserId = GetUserId();
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            try
+            {
+                bool result = await craftService.AddNewProjectAsync(inputModel, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+
+
+            return RedirectToAction(nameof(KnitAll));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCrochet(CrochetInputModel inputModel)
+        {
+            string? currentUserId = GetUserId();
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            try
+            {
+                bool result = await craftService.AddNewProjectAsync(inputModel, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+
+            return RedirectToAction(nameof(CrochetAll));
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -187,7 +269,7 @@ namespace MyCraftHobbyApp.Controllers
             }
            
 
-            return RedirectToRoute("/");
+            return View("All");
         }
 
         //public async Task<IActionResult> StartProject(int id)

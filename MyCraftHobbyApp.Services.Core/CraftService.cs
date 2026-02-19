@@ -71,31 +71,22 @@ namespace MyCraftHobbyApp.Services.Core
             if (craftProject == null)
                 return null;
 
+            DetailsViewModel details = new DetailsViewModel
+            {
+                Id = id,
+                Name = craftProject.Name,
+                Description = craftProject.Description,
+                ImgUrl = craftProject.ImgUrl,
+                Difficulty = craftProject.ProjectType.Difficulty,
+                ProjectTypeName = craftProject.ProjectType.Name
+            };
+
             if (craftProject is CrochetProject crochetProject)
             {
-                return new DetailsCrochetViewModel
-                {
-                    Id = id,
-                    Name = crochetProject.Name,
-                    Description = crochetProject.Description,
-                    ImgUrl = crochetProject.ImgUrl,
-                    Difficulty = crochetProject.ProjectType.Difficulty,
-                    ProjectTypeName = crochetProject.ProjectType.Name,
-                    StitchPattern = crochetProject.StitchPattern.Name
-                };
+                details.StitchPattern = crochetProject.StitchPattern.Name;
             }
-            else
-            {
-                return new DetailsKnitViewModel
-                {
-                    Id = id,
-                    Name = craftProject.Name,
-                    Description = craftProject.Description,
-                    ImgUrl = craftProject.ImgUrl,
-                    Difficulty = craftProject.ProjectType.Difficulty,
-                    ProjectTypeName = craftProject.ProjectType.Name
-                };
-            }
+
+            return details;
         }
 
         public async Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync()

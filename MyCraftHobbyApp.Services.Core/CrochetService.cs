@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyCraftHobbyApp.Data;
-using MyCraftHobbyApp.Data.Models;
-using MyCraftHobbyApp.Services.Core.Interfaces;
-using MyCraftHobbyApp.ViewModels;
+﻿
 
 namespace MyCraftHobbyApp.Services.Core
 {

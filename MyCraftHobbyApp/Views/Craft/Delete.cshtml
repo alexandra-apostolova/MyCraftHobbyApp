@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete Project";
+
 }
 
 <div class="delete-card">
@@ -15,7 +16,7 @@
         <form method="post" asp-action="Delete" asp-route-id="@Model.Id">
             <button type="submit" class="btn btn-delete">Confirm</button>
         </form>
-        <a asp-controller="@Model.CraftName" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
+        <a asp-controller="Craft" asp-action="All" asp-route-id="@Model.Id" class="btn btn-cancel">
             Cancel
         </a>
     </div>

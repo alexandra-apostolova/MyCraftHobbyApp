@@ -10,7 +10,7 @@
         <!-- Title + Back button -->
         <div class="details-header">
             <h1 class="project-details-title">@Model.Name</h1>
-            <a asp-controller="@Model.CraftName" asp-action="All" class="craft-button">
+            <a asp-controller="Craft" asp-action="@(Model.StitchPattern != null ? "CrochetAll" : "KnitAll")" class="craft-button">
                 Back to Projects
             </a>
         </div>
@@ -21,6 +21,10 @@
                 <div class="patch-content">
                     <p><strong>Difficulty:</strong> @Model.Difficulty</p>
                     <p><strong>Project Type:</strong> @Model.ProjectTypeName</p>
+                    @if(Model.StitchPattern != null)
+                    {
+                        <p><strong>Stitch Pattern:</strong> @Model.StitchPattern</p>
+                    }
                 </div>
             </div>
             <div class="details-text">

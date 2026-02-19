@@ -1,4 +1,5 @@
 ﻿using MyCraftHobbyApp.Data.Models;
+using MyCraftHobbyApp.GCommon.Enums;
 using System.ComponentModel.DataAnnotations;
 using static MyCraftHobbyApp.GCommon.EntityValidation;
 namespace MyCraftHobbyApp.ViewModels
@@ -20,15 +21,15 @@ namespace MyCraftHobbyApp.ViewModels
         [Url(ErrorMessage = "Please enter a valid URL.")]
         public string? ImgUrl { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a project type.")]
         public int ProjectTypeId { get; set; }
 
         public IEnumerable<ProjectType>? ProjectTypes { get; set; }
 
         [Required]
         public int UserId { get; set; }
-        public string CraftType { get; set; } = null!;
+        public CraftType CraftType { get; set; }
         public string CraftName =>
-            CraftType == "KnitProject" ? "Knit" : "Crochet";
+            CraftType.ToString();
     }
 }

@@ -1,24 +1,15 @@
-﻿@model InputModel
+﻿@model KnitInputModel
 
 @{
-	bool isKnitProject = true;
-	if (Model is CrochetInputModel)
-	{
-		isKnitProject = false;
-		ViewData["Title"] = "Add Crochet Project";
-	}
-	else
-	{
-		ViewData["Title"] = "Add Knit Project";
-	}
-}
+	ViewData["Title"] = "Add Knit Project";
 
+}
 
 <div class="form-page">
 	<div class="form-card">
 		<h2 class="form-title">@ViewData["Title"]</h2>
 
-		<form asp-action="Edit" method="post">
+		<form asp-action="CreateKnit" method="post">
 
 			<div class="form-group">
 				<label asp-for="Name"></label>
@@ -43,19 +34,6 @@
 					   placeholder="https://example.com/image.jpg" />
 				<span asp-validation-for="ImgUrl" class="validation-error"></span>
 			</div>
-			@if (Model is CrochetInputModel crochet)
-			{
-				<div class="form-group">
-					<label asp-for="@crochet.StitchPatternId"></label>
-					<select asp-for="@crochet.StitchPatternId"
-							asp-items="@(new SelectList(crochet.StitchPatterns, "Id", "Name"))"
-							class="form-select">
-						<option value="">-- Select Stitch Pattern --</option>
-					</select>
-					<span asp-validation-for="@crochet.StitchPatternId" class="validation-error"></span>
-				</div>
-			}
-
 			<div class="form-group">
 				<label asp-for="ProjectTypeId">Project Type</label>
 				<select asp-for="ProjectTypeId"
@@ -66,12 +44,11 @@
 				<span asp-validation-for="ProjectTypeId" class="validation-error"></span>
 			</div>
 
-			<button type="submit" class="btn-submit">Save Changes</button>
+			<button type="submit" class="btn-submit">Add Project</button>
 
-			<a asp-controller="Craft" asp-action="@(isKnitProject ? "KnitAll" : "CrochetAll")" asp-route-id="@Model.Id" class="btn btn-cancel">
+			<a asp-controller="Craft" asp-action="KnitAll" asp-route-id="@Model.Id" class="btn btn-cancel">
 				Cancel
 			</a>
-
 		</form>
 	</div>
 </div>
