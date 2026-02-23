@@ -129,13 +129,27 @@ body {
 }
 
 /* Craft cards */
-.craft-options {
+.projects-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.project-title {
+    text-align: center;
+    min-height: 3.2rem; /* equalizes title space */
+}
+
+.project-difficulty{
+    text-align: center;
+}
+
+.intro-options {
     display: flex;
     gap: 3rem;
     flex-wrap: wrap;
 }
-
-.craft-card {
+.intro-card {
     background-color: var(--card-bg);
     display: flex;
     flex-direction: column;
@@ -149,11 +163,30 @@ body {
     max-width: 260px;
 }
 
-    .craft-card:hover {
+.craft-card {
+    background-color: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* pushes buttons to bottom */
+    flex: 0 0 260px; /* fixed width */
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .craft-card:hover,
+    .intro-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     }
 
+.craft-card-content {
+    padding: 2rem 2rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
 .craft-image {
     width: 160px;
     height: 160px;

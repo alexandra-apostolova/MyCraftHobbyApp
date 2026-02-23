@@ -22,34 +22,36 @@
 			@foreach (var project in Model)
 			{
 				<div class="craft-card">
-					<div class="craft-image-wrapper">
-						@if (isKnitProject)
-						{
-							<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
-														  ? "~/images/istockphoto-1499593982-612x612.jpg"
-														  : project.ImgUrl)"
-							alt="@project.Name"
-							class="craft-image" />
-						}
-						else
-						{
-							<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
-															? "~/images/istockphoto-1311419248-612x612.jpg"
-															: project.ImgUrl)"
-							alt="@project.Name"
-							class="craft-image" />
-						}
+					<div class="craft-card-content">
+						<div class="craft-image-wrapper">
+							@if (isKnitProject)
+							{
+								<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																  		   ? "~/images/istockphoto-1499593982-612x612.jpg"
+																  		   : project.ImgUrl)"
+							 alt="@project.Name"
+							 class="craft-image" />
+												}
+							else
+							{
+								<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+													? "~/images/istockphoto-1311419248-612x612.jpg"
+													: project.ImgUrl)"
+							 alt="@project.Name"
+							 class="craft-image" />
+												}
 
-				</div>
+						</div>
 
-					<h3 class="project-title">@project.Name</h3>
-					<p class="project-difficulty">@project.Difficulty</p>
+						<h3 class="project-title">@project.Name</h3>
+						<p class="project-difficulty">@project.Difficulty</p>
+					</div>
 
 					<div class="project-buttons">
 						<a asp-controller="Craft" asp-action="Details" asp-route-id="@project.Id" class="btn btn-details">
 							View Details
 						</a>
-					@if (project.IsCreator)
+						@if (project.IsCreator)
 						{
 							<div class="button-row">
 								<a asp-controller="Craft" asp-action="Edit" asp-route-id="@project.Id" class="btn btn-edit">
