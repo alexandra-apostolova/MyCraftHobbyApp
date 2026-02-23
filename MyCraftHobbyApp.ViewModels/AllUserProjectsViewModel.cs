@@ -10,9 +10,6 @@ namespace MyCraftHobbyApp.ViewModels
         public string Name { get; set; } = null!;
         public string? ImgUrl { get; set; }
         public CraftType CraftType { get; set; }
-        public string CraftName =>
-            CraftType.ToString();
-
         public Difficulty Difficulty { get; set; }
 
         public bool IsCreator { get; set; }

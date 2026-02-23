@@ -291,6 +291,14 @@ namespace MyCraftHobbyApp.Services.Core
             await dbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<CraftType> GetCraftType(int id)
+        {
+            return await dbContext.Projects
+                .Where(p => p.Id == id)
+                .Select(p => p.Type)
+                .SingleOrDefaultAsync();
+        }
     }
 }
 

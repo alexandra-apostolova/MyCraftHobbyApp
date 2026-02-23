@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using MyCraftHobbyApp.Data.Models;
-using MyCraftHobbyApp.Services.Core;
+using MyCraftHobbyApp.GCommon.Enums;
 using MyCraftHobbyApp.Services.Core.Interfaces;
 using MyCraftHobbyApp.ViewModels;
 
@@ -146,7 +147,15 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
-            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home");
+
+            CraftType type = await craftService.GetCraftType(id);
+
+            string referer = Request.Headers["Referer"].ToString();
+
+            ViewData["ReturnUrl"] = !string.IsNullOrEmpty(referer)
+                ? referer
+                : Url.Action(type == CraftType.Knit ? "KnitAll" : "CrochetAll");
+
             CraftProject craftProject = await craftService.GetProjectAsync(id);
             if (craftProject == null)
             {
@@ -184,7 +193,7 @@ namespace MyCraftHobbyApp.Controllers
                 };
             }
 
-            return View(model); 
+            return View(model);
         }
 
         [HttpPost]
@@ -196,7 +205,6 @@ namespace MyCraftHobbyApp.Controllers
             }
             if (!ModelState.IsValid)
             {
-                ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
                 return View(inputModel);
             }
 
@@ -222,7 +230,7 @@ namespace MyCraftHobbyApp.Controllers
                 ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
             }
 
-            return RedirectToAction(Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home"));
+            return RedirectToAction("Details", new { id });
         }
 
         [HttpGet]
@@ -232,8 +240,11 @@ namespace MyCraftHobbyApp.Controllers
             {
                 return BadRequest();
             }
-
-            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home");
+            CraftType type = await craftService.GetCraftType(id);
+            string referer = Request.Headers["Referer"].ToString();
+            ViewData["ReturnUrl"] = !string.IsNullOrEmpty(referer)
+                ? referer
+                : Url.Action(type == CraftType.Knit ? "KnitAll" : "CrochetAll");
 
             CraftProject projectToDelete = await craftService.GetProjectAsync(id);
             if (projectToDelete == null)
@@ -258,25 +269,35 @@ namespace MyCraftHobbyApp.Controllers
                 return BadRequest();
             }
 
-            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString();
-
             try
             {
+                CraftType type = await craftService.GetCraftType(id);
+
                 bool result = await craftService.DeleteProjectAsync(id);
                 if (!result)
                 {
                     return NotFound();
                 }
+
+                if (type == CraftType.Knit)
+                {
+                    return RedirectToAction("KnitAll");
+                }
+                else
+                {
+                    return RedirectToAction("CrochetAll");
+                }
+
             }
             catch (Exception)
             {
                 logger.LogError("Something went wrong. Try again later.");
 
                 ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
-            }
-           
 
-            return RedirectToRoute(Request.Headers["Referer"].ToString() ?? Url.Action("Index", "Home"));
+                return RedirectToAction(Url.Action("Index", "Home"));
+            }
+
         }
 
         //public async Task<IActionResult> StartProject(int id)

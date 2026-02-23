@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AllUserProjectsViewModel>
+﻿@using MyCraftHobbyApp.GCommon.Enums
+@model IEnumerable<AllUserProjectsViewModel>
 
 @{
 	ViewData["Title"] = "My Projects";
@@ -12,6 +13,12 @@
 
 	<div class="projects-header">
 		<h1 class="project-details-title">My Projects</h1>
+		<a asp-controller="Craft" asp-action="CreateKnit" class="craft-button">
+			+ Add New Knit Project
+		</a>
+		<a asp-controller="Craft" asp-action="CreateCrochet" class="craft-button">
+			+ Add New Crochet Project
+		</a>
 	</div>
 
 	<div class="projects-columns">
@@ -45,14 +52,25 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																						   ? "~/images/istockphoto-1311419248-612x612.jpg"
+																						   : project.ImgUrl)"
+							 alt="@project.Name" class="project-strip-image" />
+												}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																						   ? "~/images/istockphoto-1499593982-612x612.jpg"
+																						   : project.ImgUrl)"
+							 alt="@project.Name" class="project-strip-image" />
+												}
 
 							</div>
 						</a>
@@ -110,14 +128,25 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+													? "~/images/istockphoto-1311419248-612x612.jpg"
+													: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+													? "~/images/istockphoto-1499593982-612x612.jpg"
+													: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
 							</div>
 						</a>
 
@@ -163,14 +192,25 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+											? "~/images/istockphoto-1311419248-612x612.jpg"
+											: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+											? "~/images/istockphoto-1499593982-612x612.jpg"
+											: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
 							</div>
 						</a>
 

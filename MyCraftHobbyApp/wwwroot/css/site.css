@@ -367,6 +367,9 @@ body {
     font-size: 1.05rem;
     line-height: 1.5;
 }
+    .italic-text {
+        font-style: italic;
+    }
 
 /* Buttons under text */
 .details-buttons {
