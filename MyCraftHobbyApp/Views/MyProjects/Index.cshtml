@@ -152,12 +152,11 @@
 
 						<!-- Finish button below -->
 						<div class="project-strip-bottom">
-							<a asp-controller="Craft"
-							   asp-action="FinishProject"
-							   asp-route-id="@project.Id"
-							   class="btn btn-finish">
-								Finish Project
-							</a>
+							<form method="post" asp-controller="Craft" 
+							asp-action="ToggleStartFinishProject" 
+							asp-route-id="@project.Id">
+								<button type="submit" class="btn btn-finish">Finish Project</button>
+							</form>
 						</div>
 
 					</div>

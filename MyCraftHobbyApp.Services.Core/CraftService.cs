@@ -60,7 +60,7 @@ namespace MyCraftHobbyApp.Services.Core
             return knitProjects;
         }
 
-        public async Task<DetailsViewModel> GetDetailsForModelAsync(int id)
+        public async Task<DetailsViewModel> GetDetailsForModelAsync(int id, string? currentUserId)
         {
             CraftProject? craftProject = await dbContext.Projects
                 .Where(p => p.Id == id)
@@ -71,6 +71,10 @@ namespace MyCraftHobbyApp.Services.Core
             if (craftProject == null)
                 return null;
 
+            UserProject? userProject = await dbContext.UserProjects
+                .SingleOrDefaultAsync(u => u.UserId == currentUserId
+                && u.CraftProjectId == craftProject.Id);
+
             DetailsViewModel details = new DetailsViewModel
             {
                 Id = id,
@@ -78,12 +82,23 @@ namespace MyCraftHobbyApp.Services.Core
                 Description = craftProject.Description,
                 ImgUrl = craftProject.ImgUrl,
                 Difficulty = craftProject.ProjectType.Difficulty,
-                ProjectTypeName = craftProject.ProjectType.Name
+                ProjectTypeName = craftProject.ProjectType.Name,
             };
-
             if (craftProject is CrochetProject crochetProject)
             {
                 details.StitchPattern = crochetProject.StitchPattern.Name;
+            }
+
+
+            if (userProject == null)
+            {
+                details.IsStarted = false;
+                details.IsFinished = false;
+            }
+            else
+            {
+                details.IsStarted = userProject.IsStarted;
+                details.IsFinished = userProject.IsFinished;
             }
 
             return details;
@@ -161,7 +176,7 @@ namespace MyCraftHobbyApp.Services.Core
         public async Task<bool> EditExistingProjectAsync(CraftProject craftProject, InputModel inputModel)
         {
             bool isValidProjectType = await CheckIsValidProjectIdAsync(inputModel);
-            
+
             if (!isValidProjectType)
             {
                 return false;
@@ -241,7 +256,7 @@ namespace MyCraftHobbyApp.Services.Core
             return false;
         }
 
-        public async Task<bool> StartProjectAsync(KnitProject projectToStart, string? currentUserId)
+        public async Task<bool> ToggleStartFinishAsync(CraftProject projectToStart, string? currentUserId)
         {
             if (projectToStart == null)
                 return false;
@@ -255,8 +270,16 @@ namespace MyCraftHobbyApp.Services.Core
 
             if (userProject != null)
             {
-                userProject.IsStarted = true;
-                userProject.IsFinished = false;
+                if (userProject.IsStarted == false)
+                {
+                    userProject.IsStarted = true;
+                    userProject.IsFinished = false;
+                }
+                else
+                {
+                    userProject.IsStarted = false;
+                    userProject.IsFinished = true;
+                }
                 dbContext.UserProjects.Update(userProject);
             }
             else
@@ -272,21 +295,6 @@ namespace MyCraftHobbyApp.Services.Core
 
                 await dbContext.UserProjects.AddAsync(userProject);
             }
-
-            await dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> FinishProjectAsync(KnitProject project, string? currentUserId)
-        {
-            UserProject? userProject = await dbContext.UserProjects
-                    .SingleOrDefaultAsync(up => up.CraftProjectId == project.Id && up.UserId == currentUserId);
-
-            if (userProject == null)
-                return false;
-
-            userProject.IsStarted = false;
-            userProject.IsFinished = true;
 
             await dbContext.SaveChangesAsync();
             return true;

@@ -371,22 +371,20 @@ body {
     border-radius: 12px;
 }
 
-/* Flex container for text + image */
 .details-content{
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* IMPORTANT */
+    align-items: stretch;
     gap: 2rem;
     flex-wrap: wrap;
-}/* stacks on smaller screens */
+}
 
-/* Text section */
 .details-text {
     flex: 1 1 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-size: 1.12rem; /* slightly larger */
+    font-size: 1.12rem;
     line-height: 1.7;
     margin-bottom: 1.2rem;
     background: linear-gradient( 145deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3) );
@@ -404,7 +402,7 @@ body {
 
 /* Buttons under text */
 .details-buttons {
-    margin-top: auto; /* THIS pins to bottom */
+    margin-top: auto;
     padding-top: 2rem;
     display: flex;
     gap: 0.75rem;
@@ -422,14 +420,6 @@ body {
             transform: translateY(-2px);
             box-shadow: 0 8px 18px rgba(0,0,0,0.15);
         }
-
-/*.btn-start {
-    background: var(--accent-hover);  
-    border: none;
-}
-    .btn-start:hover{
-        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-}*/
 
 .btn-start {
     background: var(--accent-hover);

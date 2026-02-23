@@ -10,7 +10,7 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<ICollection<AllViewModel>> GetAllKnitProjectsAsync(string? currentUserId);
 
 
-        Task<DetailsViewModel> GetDetailsForModelAsync(int id);
+        Task<DetailsViewModel> GetDetailsForModelAsync(int id, string? currentUserId);
 
         Task<IEnumerable<ProjectType>> GetAllProjectTypesAsync();
         Task<IEnumerable<StitchPattern>> GetAllStitchPatternAsync();
@@ -25,7 +25,6 @@ namespace MyCraftHobbyApp.Services.Core.Interfaces
         Task<bool> EditExistingProjectAsync(CraftProject project, InputModel model);
         Task<bool> DeleteProjectAsync(int id);
 
-        Task<bool> StartProjectAsync(KnitProject project, string? currentUserId);
-        Task<bool> FinishProjectAsync(KnitProject project, string? currentUserId);
+        Task<bool> ToggleStartFinishAsync(CraftProject project, string? currentUserId);
     }
 }

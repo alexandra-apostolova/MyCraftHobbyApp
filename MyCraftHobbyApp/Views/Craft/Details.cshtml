@@ -38,10 +38,12 @@
 					<a asp-controller="Craft" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-delete btn-danger">
 						Delete
 					</a>
-
-					<a asp-controller="Craft" asp-action="StartProject" asp-route-id="@Model.Id" class="btn btn-welcome btn-start">
-						@(Model.IsStarted && !Model.IsFinished ? "Finish Project" : "Start Project")
-					</a>
+					<form method="post" asp-controller="Craft"
+						  asp-action="ToggleStartFinishProject"
+						  asp-route-id="@Model.Id">
+						<button type="submit" class="btn btn-welcome btn-start">
+							@(Model.IsStarted && !Model.IsFinished ? "Finish Project" : "Start Project")</button>
+					</form>
 				</div>
 			</div>
 
