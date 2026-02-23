@@ -9,7 +9,7 @@ namespace MyCraftHobbyApp.ViewModels
         [Required]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please choose a name.")]
         [MaxLength(ProjectNameMaxValue)]
         [MinLength(ProjectNameMinValue)]
         public string Name { get; set; } = null!;
