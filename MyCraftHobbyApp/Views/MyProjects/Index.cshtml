@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AllUserProjectsViewModel>
+﻿@using MyCraftHobbyApp.GCommon.Enums
+@model IEnumerable<AllUserProjectsViewModel>
 
 @{
 	ViewData["Title"] = "My Projects";
@@ -12,6 +13,12 @@
 
 	<div class="projects-header">
 		<h1 class="project-details-title">My Projects</h1>
+		<a asp-controller="Craft" asp-action="CreateKnit" class="craft-button">
+			+ Add New Knit Project
+		</a>
+		<a asp-controller="Craft" asp-action="CreateCrochet" class="craft-button">
+			+ Add New Crochet Project
+		</a>
 	</div>
 
 	<div class="projects-columns">
@@ -35,7 +42,7 @@
 					<div class="project-strip-wrapper">
 
 						<!-- Text + Image link -->
-						<a asp-controller="@project.CraftName"
+						<a asp-controller="Craft"
 						   asp-action="Details"
 						   asp-route-id="@project.Id"
 						   class="project-strip-link">
@@ -45,14 +52,25 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																						   ? "~/images/istockphoto-1311419248-612x612.jpg"
+																						   : project.ImgUrl)"
+							 alt="@project.Name" class="project-strip-image" />
+												}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+																						   ? "~/images/istockphoto-1499593982-612x612.jpg"
+																						   : project.ImgUrl)"
+							 alt="@project.Name" class="project-strip-image" />
+												}
 
 							</div>
 						</a>
@@ -60,14 +78,14 @@
 						<!-- Buttons below the strip -->
 						<div class="project-strip-bottom">
 							<div class="button-row">
-								<a asp-controller="@project.CraftName"
+								<a asp-controller="Craft"
 								   asp-action="Edit"
 								   asp-route-id="@project.Id"
 								   class="btn btn-edit">
 									Edit
 								</a>
 
-								<a asp-controller="@project.CraftName"
+								<a asp-controller="Craft"
 								   asp-action="Delete"
 								   asp-route-id="@project.Id"
 								   class="btn btn-delete">
@@ -100,7 +118,7 @@
 					<div class="project-strip-wrapper">
 
 						<!-- Text + Image link -->
-						<a asp-controller="@project.CraftName"
+						<a asp-controller="Craft"
 						   asp-action="Details"
 						   asp-route-id="@project.Id"
 						   class="project-strip-link">
@@ -110,25 +128,35 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+													? "~/images/istockphoto-1311419248-612x612.jpg"
+													: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+													? "~/images/istockphoto-1499593982-612x612.jpg"
+													: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
 							</div>
 						</a>
 
 						<!-- Finish button below -->
 						<div class="project-strip-bottom">
-							<a asp-controller="@project.CraftName"
-							   asp-action="FinishProject"
-							   asp-route-id="@project.Id"
-							   class="btn btn-finish">
-								Finish Project
-							</a>
+							<form method="post" asp-controller="Craft" 
+							asp-action="ToggleStartFinishProject" 
+							asp-route-id="@project.Id">
+								<button type="submit" class="btn btn-finish">Finish Project</button>
+							</form>
 						</div>
 
 					</div>
@@ -153,7 +181,7 @@
 				{
 					<div class="project-strip-wrapper">
 
-						<a asp-controller="@project.CraftName"
+						<a asp-controller="Craft"
 						   asp-action="Details"
 						   asp-route-id="@project.Id"
 						   class="project-strip-link">
@@ -163,14 +191,25 @@
 								<div class="project-strip-text">
 									<h5>@project.Name</h5>
 									<div class="project-meta">
-										<span>@project.CraftName</span> ·
+										<span>@project.CraftType</span> ·
 										<span>@project.Difficulty</span>
 									</div>
 								</div>
 
-								<img src="@project.ImgUrl"
-									 class="project-strip-image"
-									 alt="project image" />
+								@if (project.CraftType == CraftType.Crochet)
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+											? "~/images/istockphoto-1311419248-612x612.jpg"
+											: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
+								else
+								{
+									<img src="@Url.Content(string.IsNullOrEmpty(project.ImgUrl)
+											? "~/images/istockphoto-1499593982-612x612.jpg"
+											: project.ImgUrl)"
+									alt="@project.Name" class="project-strip-image" />
+								}
 							</div>
 						</a>
 

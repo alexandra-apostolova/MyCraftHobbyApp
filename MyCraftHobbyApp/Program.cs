@@ -28,8 +28,7 @@ namespace MyCraftHobbyApp
 
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IKnitService, KnitService>();
-            builder.Services.AddScoped<ICrochetService, CrochetService>();
+            builder.Services.AddScoped<ICraftService, CraftService>();
             builder.Services.AddScoped<IMyProjectsService, MyProjectsService>();
 
             var app = builder.Build();

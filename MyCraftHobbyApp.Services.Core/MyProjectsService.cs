@@ -22,7 +22,7 @@ namespace MyCraftHobbyApp.Services.Core
                     Id = p.CraftProject.Id,
                     Name = p.CraftProject.Name,
                     ImgUrl = p.CraftProject.ImgUrl,
-                    CraftType = p.CraftProject.GetType().Name,
+                    CraftType = p.CraftProject.Type,
                     Difficulty = p.CraftProject.ProjectType.Difficulty,
                     IsCreator = p.IsCreator,
                     IsStarted = p.IsStarted,

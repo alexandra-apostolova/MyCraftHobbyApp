@@ -1,0 +1,337 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Mvc;
+using MyCraftHobbyApp.Data.Models;
+using MyCraftHobbyApp.GCommon.Enums;
+using MyCraftHobbyApp.Services.Core.Interfaces;
+using MyCraftHobbyApp.ViewModels;
+
+namespace MyCraftHobbyApp.Controllers
+{
+    public class CraftController : BaseController
+    {
+        private readonly ICraftService craftService;
+        private readonly ILogger<CraftController> logger;
+        public CraftController(ICraftService craftService, ILogger<CraftController> logger)
+        {
+            this.craftService = craftService;
+            this.logger = logger;
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> KnitAll()
+        {
+            string? currentUserId = GetUserId();
+            ICollection<AllViewModel> viewModel
+                = await craftService.GetAllKnitProjectsAsync(currentUserId);
+
+            return View("All", viewModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> CrochetAll()
+        {
+            string? currentUserId = GetUserId();
+            ICollection<AllViewModel> viewModel
+                = await craftService.GetAllCrochetProjectsAsync(currentUserId);
+
+            return View("All", viewModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            string? currentUserId = GetUserId();
+
+            DetailsViewModel viewModel = await craftService.GetDetailsForModelAsync(id, currentUserId);
+            if (viewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateKnit()
+        {
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("KnitAll");
+            IEnumerable<ProjectType> allProjectTypes = await craftService.GetAllProjectTypesAsync();
+
+            InputModel inputModel = new KnitInputModel()
+            {
+                ProjectTypes = allProjectTypes,
+            };
+
+            return View("CreateKnit", inputModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateCrochet()
+        {
+            ViewData["ReturnUrl"] = Request.Headers["Referer"].ToString() ?? Url.Action("CrochetAll");
+            IEnumerable<ProjectType> projectTypes = await craftService.GetAllProjectTypesAsync();
+            IEnumerable<StitchPattern> stitchPatterns = await craftService.GetAllStitchPatternAsync();
+
+            InputModel inputModel = new CrochetInputModel
+            {
+                StitchPatterns = stitchPatterns,
+                ProjectTypes = projectTypes
+            };
+
+            return View("CreateCrochet", inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateKnit(KnitInputModel inputModel)
+        {
+            string? currentUserId = GetUserId();
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            try
+            {
+                bool result = await craftService.AddNewProjectAsync(inputModel, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+
+
+            return RedirectToAction(nameof(KnitAll));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCrochet(CrochetInputModel inputModel)
+        {
+            string? currentUserId = GetUserId();
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            try
+            {
+                bool result = await craftService.AddNewProjectAsync(inputModel, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+
+            return RedirectToAction(nameof(CrochetAll));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            CraftType type = await craftService.GetCraftType(id);
+
+            string referer = Request.Headers["Referer"].ToString();
+
+            ViewData["ReturnUrl"] = !string.IsNullOrEmpty(referer)
+                ? referer
+                : Url.Action(type == CraftType.Knit ? "KnitAll" : "CrochetAll");
+
+            CraftProject craftProject = await craftService.GetProjectAsync(id);
+            if (craftProject == null)
+            {
+                return NotFound();
+            }
+
+            InputModel model;
+            var projectTypes = await craftService.GetAllProjectTypesAsync();
+            var stitchPatterns = await craftService.GetAllStitchPatternAsync();
+
+            if (craftProject is CrochetProject crochet)
+            {
+                model = new CrochetInputModel()
+                {
+                    Id = id,
+                    Name = crochet.Name,
+                    Description = crochet.Description,
+                    ImgUrl = crochet.ImgUrl,
+                    ProjectTypeId = crochet.ProjectTypeId,
+                    ProjectTypes = projectTypes,
+                    StitchPatternId = crochet.StitchPatternId,
+                    StitchPatterns = stitchPatterns
+                };
+            }
+            else
+            {
+                model = new KnitInputModel()
+                {
+                    Id = id,
+                    Name = craftProject.Name,
+                    Description = craftProject.Description,
+                    ImgUrl = craftProject.ImgUrl,
+                    ProjectTypeId = craftProject.ProjectTypeId,
+                    ProjectTypes = projectTypes
+                };
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, InputModel inputModel)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            CraftProject craftProject = await craftService.GetProjectAsync(id);
+            if (craftProject == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                bool result = await craftService.EditExistingProjectAsync(craftProject, inputModel);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+            }
+
+            return RedirectToAction("Details", new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            CraftType type = await craftService.GetCraftType(id);
+            string referer = Request.Headers["Referer"].ToString();
+            ViewData["ReturnUrl"] = !string.IsNullOrEmpty(referer)
+                ? referer
+                : Url.Action(type == CraftType.Knit ? "KnitAll" : "CrochetAll");
+
+            CraftProject projectToDelete = await craftService.GetProjectAsync(id);
+            if (projectToDelete == null)
+            {
+                return NotFound();
+            }
+
+            DeleteViewModel model = new DeleteViewModel
+            {
+                Id = projectToDelete.Id,
+                Name = projectToDelete.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, InputModel model)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                CraftType type = await craftService.GetCraftType(id);
+
+                bool result = await craftService.DeleteProjectAsync(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
+
+                if (type == CraftType.Knit)
+                {
+                    return RedirectToAction("KnitAll");
+                }
+                else
+                {
+                    return RedirectToAction("CrochetAll");
+                }
+
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+
+                ModelState.AddModelError(string.Empty, "Something went wrong. Try again later.");
+
+                return RedirectToAction(Url.Action("Index", "Home"));
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ToggleStartFinishProject(int id)
+        {
+            string? currentUserId = GetUserId();
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            CraftProject? projectToStart = await craftService.GetProjectAsync(id);
+            if (projectToStart == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                bool result = await craftService.ToggleStartFinishAsync(projectToStart, currentUserId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                logger.LogError("Something went wrong. Try again later.");
+                ModelState.AddModelError(String.Empty, "Something went wrong. Try again later.");
+            }
+
+            return RedirectToAction("Index", "MyProjects");
+        }
+
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using MyCraftHobbyApp.Data.Models.Interfaces;
+using MyCraftHobbyApp.GCommon.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static MyCraftHobbyApp.GCommon.EntityValidation;
@@ -25,6 +26,8 @@ namespace MyCraftHobbyApp.Data.Models
 
         [Required]
         public ProjectType ProjectType { get; set; } = null!;
+
+        public CraftType Type { get; protected set; }
 
         public ICollection<UserProject> UserProjects { get; set; }
                 = new HashSet<UserProject>();
