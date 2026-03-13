@@ -13,12 +13,14 @@
 
 	<div class="projects-header">
 		<h1 class="project-details-title">My Projects</h1>
-		<a asp-controller="Craft" asp-action="CreateKnit" class="craft-button">
-			+ Add New Knit Project
-		</a>
-		<a asp-controller="Craft" asp-action="CreateCrochet" class="craft-button">
-			+ Add New Crochet Project
-		</a>
+		<div class="add-new-project">
+			<a asp-controller="Craft" asp-action="CreateKnit" class="craft-button">
+				+ Add Knit Project
+			</a>
+			<a asp-controller="Craft" asp-action="CreateCrochet" class="craft-button">
+				+ Add Crochet Project
+			</a>
+		</div>
 	</div>
 
 	<div class="projects-columns">

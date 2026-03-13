@@ -215,6 +215,26 @@ body {
         transform: scale(1.03);
     }
 
+.add-new-project {
+    display: flex;
+}
+
+    .add-new-project .craft-button {
+        border-radius: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+        .add-new-project .craft-button:first-child {
+            border-radius: 999px 0 0 999px;
+            border-right: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .add-new-project .craft-button:last-child {
+            border-radius: 0 999px 999px 0;
+        }
+
 /* ===== INFO SECTION SIMPLE ===== */
 .info-section {
     padding: 4rem 2rem;
@@ -569,7 +589,7 @@ body {
         background-color: var(--accent-hover);
     }
 
-.btn-cancel {
+.btn-cancel-del {
     border: 1px solid var(--text-main);
     background-color: var(--card-bg);
     color: var(--text-main);
@@ -577,9 +597,25 @@ body {
     transition: 0.3s ease;
 }
 
+    .btn-cancel-del:hover,
     .btn-cancel:hover {
         background-color: var(--bg-base)
     }
+
+.btn-cancel {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--text-main);
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 1em;
+}
+
 
 /* Validation */
 .validation-error {
