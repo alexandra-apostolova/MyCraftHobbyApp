@@ -304,12 +304,20 @@ body {
     gap: 10px;
 }
 
-    .button-row form {
+    .button-row > * {
         flex: 1;
     }
 
     .button-row .btn {
+        display: block;
         width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        text-align: center;
     }
 
 .btn {
@@ -562,22 +570,17 @@ body {
     }
 
 .btn-cancel {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
     border: 1px solid var(--text-main);
     background-color: var(--card-bg);
     color: var(--text-main);
-    font-weight: 600;
-    font-size: 15px;
     cursor: pointer;
     transition: 0.3s ease;
-    margin-top: 1em;
 }
 
     .btn-cancel:hover {
         background-color: var(--bg-base)
     }
+
 /* Validation */
 .validation-error {
     color: #b04a4a;
