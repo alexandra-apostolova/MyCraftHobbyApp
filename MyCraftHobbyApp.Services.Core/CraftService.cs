@@ -94,11 +94,13 @@ namespace MyCraftHobbyApp.Services.Core
             {
                 details.IsStarted = false;
                 details.IsFinished = false;
+                details.IsCreator = false;
             }
             else
             {
                 details.IsStarted = userProject.IsStarted;
                 details.IsFinished = userProject.IsFinished;
+                details.IsCreator = userProject.IsCreator;
             }
 
             return details;

@@ -621,7 +621,7 @@ body {
     background-size: 210px 170px;
     background-repeat: repeat;
     border-radius: 16px;
-    /* layered patch effect */
+
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.06), inset 0 0 0 8px var(--bg-base);
     display: flex;
     align-items: center;
@@ -629,18 +629,15 @@ body {
     text-align: center;
 }
 
-    /* Stitched border */
     .patchwork-square::before {
         content: "";
         position: absolute;
         inset: 12px;
         border-radius: 12px;
         border: 3px dashed var(--accent);
-        /* soft fabric feel */
         opacity: 0.9;
     }
 
-    /* Extra subtle inner fabric texture */
     .patchwork-square::after {
         content: "";
         position: absolute;
@@ -684,7 +681,6 @@ body {
     margin: 0;
 }
 
-/* ===== THREE COLUMN LAYOUT ===== */
 
 .projects-columns {
     display: flex;
@@ -706,17 +702,16 @@ body {
 /* ===== PROJECT STRIP ===== */
 
 .project-strip-wrapper {
-    margin-bottom: 1.5rem; /* space between strips */
+    margin-bottom: 1.5rem;
 }
 
 .project-strip-link {
     text-decoration: none;
 }
 
-/* Strip content (text + image) */
 .project-strip {
     display: flex;
-    align-items: center; /* text left, image right */
+    align-items: center;
     justify-content: space-between;
     padding: 1rem;
     border-radius: 16px;
@@ -751,9 +746,8 @@ body {
     border: 3px solid var(--bg-base);
 }
 
-/* Finish button styling */
 .project-strip-bottom {
-    margin-top: 0.5rem; /* space above button */
+    margin-top: 0.5rem; 
 }
 
 .btn-finish {

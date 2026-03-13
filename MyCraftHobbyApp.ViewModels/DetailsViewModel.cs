@@ -18,5 +18,6 @@ namespace MyCraftHobbyApp.ViewModels
             CraftType.ToString();
         public bool IsStarted { get; set; }
         public bool IsFinished { get; set; }
+        public bool IsCreator {  get; set; }
     }
 }
